@@ -27,3 +27,12 @@ it('presents Audencia and IELTS 7.5 in the academic record', () => {
   expect(screen.getByText(/Audencia Business School/)).toBeInTheDocument();
   expect(screen.getByText(/IELTS 7.5/)).toBeInTheDocument();
 });
+
+it('links the resume action to the published Chinese resume file', () => {
+  render(<App />);
+
+  expect(screen.getByRole('link', { name: '下载简历' })).toHaveAttribute(
+    'href',
+    '/assets/resumes/li-zhuoheng-cn-resume.pdf',
+  );
+});
