@@ -20,7 +20,7 @@ export default function Contact({ lang }) {
         <div className="contact-layout">
           <div className="contact-id-card" aria-label="李卓衡个人工卡">
             <div className="contact-id-top"><span>VINCENT LI</span><i>·</i><span>CONTACT CARD</span></div>
-            <img src="/assets/img/contact-id-photo.jpg" alt={isEn ? 'Vincent Li portrait' : '李卓衡证件照'} />
+            <img src={`${import.meta.env.BASE_URL}assets/img/contact-id-photo.jpg`} alt={isEn ? 'Vincent Li portrait' : '李卓衡证件照'} />
             <div className="contact-id-info">
               <strong>{isEn ? 'Vincent Li' : '李卓衡'}</strong>
               <span>{isEn ? 'AI Product · Agents · FinTech' : 'AI 产品 · 智能体 · 金融科技'}</span>

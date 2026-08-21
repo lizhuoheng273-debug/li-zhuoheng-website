@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useInView } from '../hooks'
 import { projects, projectsEn } from '../data/content'
 
+const assetBase = import.meta.env.BASE_URL
+
 function JobWorkbenchDemo({ isEn }) {
   return (
     <div className="job-demo" aria-label={isEn ? 'Job workbench: automated scanning, AI matching, and role intake' : '秋招工作台自动扫描、AI 匹配和岗位入库流程演示'}>
@@ -276,13 +278,13 @@ function MarkdownArticle({ source, projectId, projectTitle, onImageClick, lang }
     if (line.startsWith('## 界面截图') || line.startsWith('## Interface screenshots')) { inGallerySection = true; return null }
     if (inGallerySection && line.startsWith('## ')) inGallerySection = false
     if (inGallerySection) return null
-    if (projectId === 'course-planner' && line.includes('course-timetable-builder.zip')) return <a className="skill-download" key={index} href="/assets/projects/course-planner/course-timetable-builder.zip" download>{lang === 'en' ? 'Download Skill' : '下载 Skill'}</a>
+    if (projectId === 'course-planner' && line.includes('course-timetable-builder.zip')) return <a className="skill-download" key={index} href={`${assetBase}assets/projects/course-planner/course-timetable-builder.zip`} download>{lang === 'en' ? 'Download Skill' : '下载 Skill'}</a>
     const imageMatch = line.match(/\]\((?:.*\/)?(img-[^)]+\.png)\)/)
     if (imageMatch && projectId === 'tancan-agent') {
       const image = imageMatch[1]
       const detailImages = lang === 'en' ? projectDetailEn[projectId].images : projectDetails[projectId].images
       const [, title = lang === 'en' ? 'Project interface' : '项目界面截图'] = detailImages.find(([file]) => file === image) || []
-      return <figure className="project-inline-image" key={index}><button className="project-gallery-image" type="button" onClick={() => onImageClick({ image, title })} aria-label={lang === 'en' ? `Enlarge: ${title}` : `放大查看：${title}`}><img src={`/assets/projects/${projectId}/${image}`} alt={`${projectTitle}：${title}`} /></button></figure>
+      return <figure className="project-inline-image" key={index}><button className="project-gallery-image" type="button" onClick={() => onImageClick({ image, title })} aria-label={lang === 'en' ? `Enlarge: ${title}` : `放大查看：${title}`}><img src={`${assetBase}assets/projects/${projectId}/${image}`} alt={`${projectTitle}：${title}`} /></button></figure>
     }
     if (line.startsWith('![') || line.startsWith('|---')) return null
     if (line.startsWith('# ')) return <h2 key={index}>{line.slice(2)}</h2>
@@ -301,7 +303,7 @@ function ProjectDetail({ project, onClose, lang }) {
   const detail = lang === 'en' ? projectDetailEn[project.detailId] : projectDetails[project.detailId]
   useEffect(() => {
     let active = true
-    fetch(`/assets/projects/${project.detailId}/README.md`).then((response) => response.ok ? response.text() : Promise.reject()).then((text) => { if (active) setMarkdown(text) }).catch(() => { if (active) setMarkdown(lang === 'en' ? 'Project details are temporarily unavailable.' : '项目介绍暂时无法读取。') })
+    fetch(`${assetBase}assets/projects/${project.detailId}/README.md`).then((response) => response.ok ? response.text() : Promise.reject()).then((text) => { if (active) setMarkdown(text) }).catch(() => { if (active) setMarkdown(lang === 'en' ? 'Project details are temporarily unavailable.' : '项目介绍暂时无法读取。') })
     return () => { active = false }
   }, [project.detailId])
   useEffect(() => {
@@ -325,10 +327,10 @@ function ProjectDetail({ project, onClose, lang }) {
         <header className="project-detail-head"><div><span>{lang === 'en' ? 'Personal project' : '个人项目'}</span><h2>{project.title}</h2></div><button type="button" onClick={onClose} aria-label={lang === 'en' ? 'Close project details' : '关闭项目详情'}>×</button></header>
         <div className="project-detail-content">
           <div className="project-detail-copy">{lang === 'en' ? <MarkdownArticle source={projectDetailEn[project.detailId].source} projectId={project.detailId} projectTitle={project.title} onImageClick={setSelectedImage} lang={lang} /> : markdown ? <MarkdownArticle source={markdown} projectId={project.detailId} projectTitle={project.title} onImageClick={setSelectedImage} lang={lang} /> : <div className="project-detail-loading">正在载入项目介绍…</div>}</div>
-          {project.detailId !== 'tancan-agent' && <aside className="project-detail-gallery" aria-label={lang === 'en' ? 'Project interface' : '项目界面截图'}>{detail.images.map(([image, title, description]) => <figure key={image}><figcaption><div><b>{title}</b><span>{description}</span></div><button type="button" onClick={() => setSelectedImage({ image, title })} aria-label={lang === 'en' ? `Enlarge: ${title}` : `放大查看：${title}`}>{lang === 'en' ? 'Enlarge' : '放大'}</button></figcaption><button className="project-gallery-image" type="button" onClick={() => setSelectedImage({ image, title })} aria-label={lang === 'en' ? `Enlarge: ${title}` : `放大查看：${title}`}><img src={`/assets/projects/${project.detailId}/${image}`} alt={`${project.title}：${title}`} /></button></figure>)}</aside>}
+          {project.detailId !== 'tancan-agent' && <aside className="project-detail-gallery" aria-label={lang === 'en' ? 'Project interface' : '项目界面截图'}>{detail.images.map(([image, title, description]) => <figure key={image}><figcaption><div><b>{title}</b><span>{description}</span></div><button type="button" onClick={() => setSelectedImage({ image, title })} aria-label={lang === 'en' ? `Enlarge: ${title}` : `放大查看：${title}`}>{lang === 'en' ? 'Enlarge' : '放大'}</button></figcaption><button className="project-gallery-image" type="button" onClick={() => setSelectedImage({ image, title })} aria-label={lang === 'en' ? `Enlarge: ${title}` : `放大查看：${title}`}><img src={`${assetBase}assets/projects/${project.detailId}/${image}`} alt={`${project.title}：${title}`} /></button></figure>)}</aside>}
         </div>
       </section>
-      {selectedImage && <div className="project-image-lightbox" role="presentation" onMouseDown={(event) => { event.stopPropagation(); setSelectedImage(null) }}><button type="button" onClick={() => setSelectedImage(null)} aria-label="关闭图片预览">×</button><img src={`/assets/projects/${project.detailId}/${selectedImage.image}`} alt={`${project.title}：${selectedImage.title} 放大预览`} onMouseDown={(event) => event.stopPropagation()} /></div>}
+      {selectedImage && <div className="project-image-lightbox" role="presentation" onMouseDown={(event) => { event.stopPropagation(); setSelectedImage(null) }}><button type="button" onClick={() => setSelectedImage(null)} aria-label="关闭图片预览">×</button><img src={`${assetBase}assets/projects/${project.detailId}/${selectedImage.image}`} alt={`${project.title}：${selectedImage.title} 放大预览`} onMouseDown={(event) => event.stopPropagation()} /></div>}
     </div>
   )
 }

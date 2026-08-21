@@ -30,3 +30,11 @@ test('English project details use complete translated articles and preserve imag
   assert.match(source, /projectId === 'tancan-agent'/)
   assert.match(source, /lang === 'en' \? 'Project interface' : '项目界面截图'/)
 })
+
+test('GitHub Pages deployment uses the repository base path and publishes master', async () => {
+  const config = await readFile(new URL('../vite.config.js', import.meta.url), 'utf8')
+  const workflow = await readFile(new URL('../.github/workflows/deploy-pages.yml', import.meta.url), 'utf8')
+  assert.match(config, /base:\s*'\/li-zhuoheng-website\/'/)
+  assert.match(workflow, /branches:\s*\[master\]/)
+  assert.match(workflow, /actions\/deploy-pages@v4/)
+})
