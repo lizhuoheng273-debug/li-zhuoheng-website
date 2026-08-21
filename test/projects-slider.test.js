@@ -23,3 +23,10 @@ test('project card emphasis follows the carousel active index', async () => {
   assert.match(source, /\$\{i === activeIndex \? 'active' : ''\}/)
   assert.doesNotMatch(source, /\$\{i === 0 \? 'active' : ''\}/)
 })
+
+test('English project details use complete translated articles and preserve image placement', async () => {
+  const source = await readFile(new URL('../src/components/Projects.jsx', import.meta.url), 'utf8')
+  assert.match(source, /projectDetailEn\[project\.detailId\]\.source/)
+  assert.match(source, /projectId === 'tancan-agent'/)
+  assert.match(source, /lang === 'en' \? 'Project interface' : '项目界面截图'/)
+})
