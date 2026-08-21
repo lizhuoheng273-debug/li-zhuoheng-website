@@ -38,3 +38,9 @@ test('GitHub Pages deployment uses the repository base path and publishes master
   assert.match(workflow, /branches:\s*\[master\]/)
   assert.match(workflow, /actions\/deploy-pages@v4/)
 })
+
+test('portfolio does not render the internal layout debug badge', async () => {
+  const source = await readFile(new URL('../src/App.jsx', import.meta.url), 'utf8')
+  assert.doesNotMatch(source, /方案 F · 全屏布局 · 自由下滑/)
+  assert.doesNotMatch(source, /Portfolio · Full-screen · Free scroll/)
+})
