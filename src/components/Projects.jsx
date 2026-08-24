@@ -350,20 +350,30 @@ export default function Projects({ lang }) {
     setActiveIndex(nextIndex)
   }
 
-  const handleCarouselWheel = (event) => {
-    if (wheelLocked.current) return
-    const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
-    if (Math.abs(delta) < 8) return
+  useEffect(() => {
+    const slider = sliderRef.current
+    if (!slider) return undefined
 
-    const nextIndex = Math.max(0, Math.min(entries.length - 1, activeIndex + (delta > 0 ? 1 : -1)))
-    // At either end, let the page continue its normal vertical scroll.
-    if (nextIndex === activeIndex) return
+    const onWheel = (event) => {
+      if (wheelLocked.current) return
+      const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
+      if (Math.abs(delta) < 8) return
 
-    event.preventDefault()
-    wheelLocked.current = true
-    goToProject(nextIndex)
-    window.setTimeout(() => { wheelLocked.current = false }, 420)
-  }
+      const nextIndex = Math.max(0, Math.min(entries.length - 1, activeIndex + (delta > 0 ? 1 : -1)))
+      // At either end, let the page continue its normal vertical scroll.
+      if (nextIndex === activeIndex) return
+
+      event.preventDefault()
+      wheelLocked.current = true
+      goToProject(nextIndex)
+      window.setTimeout(() => { wheelLocked.current = false }, 420)
+    }
+
+    // A direct non-passive listener is required for desktop browsers to
+    // reliably prevent page scrolling while a card transition is happening.
+    slider.addEventListener('wheel', onWheel, { passive: false })
+    return () => slider.removeEventListener('wheel', onWheel)
+  }, [activeIndex, entries.length])
 
   useEffect(() => {
     const slider = sliderRef.current
@@ -410,7 +420,7 @@ export default function Projects({ lang }) {
         <div className="eyebrow">
           <span className="idx">03</span>PROJECTS{isEn ? '' : ' · vibe coding作品集'}
         </div>
-        <div className="proj-slider" ref={sliderRef} tabIndex="0" aria-label={isEn ? 'Project carousel: use the mouse wheel, arrow keys, or controls below to change cards' : '作品轮播：使用鼠标滚轮、左右方向键或下方按钮切换'} onWheel={handleCarouselWheel} onKeyDown={(event) => { if (event.key === 'ArrowRight') { event.preventDefault(); goToProject(activeIndex + 1) } if (event.key === 'ArrowLeft') { event.preventDefault(); goToProject(activeIndex - 1) } }}>
+        <div className="proj-slider" ref={sliderRef} tabIndex="0" aria-label={isEn ? 'Project carousel: use the mouse wheel, arrow keys, or controls below to change cards' : '作品轮播：使用鼠标滚轮、左右方向键或下方按钮切换'} onKeyDown={(event) => { if (event.key === 'ArrowRight') { event.preventDefault(); goToProject(activeIndex + 1) } if (event.key === 'ArrowLeft') { event.preventDefault(); goToProject(activeIndex - 1) } }}>
           {entries.map((p, i) => (
             <div
               className={`proj-card ${i === activeIndex ? 'active' : ''} ${p.detailId ? 'has-detail' : ''}`}
