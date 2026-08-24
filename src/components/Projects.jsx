@@ -340,6 +340,8 @@ export default function Projects({ lang }) {
   const sliderRef = useRef(null)
   const cardRefs = useRef([])
   const wheelLocked = useRef(false)
+  const dragState = useRef(null)
+  const suppressCardClickUntil = useRef(0)
   const [selectedProject, setSelectedProject] = useState(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const isEn = lang === 'en'
@@ -348,6 +350,33 @@ export default function Projects({ lang }) {
   const goToProject = (index) => {
     const nextIndex = Math.max(0, Math.min(entries.length - 1, index))
     setActiveIndex(nextIndex)
+  }
+
+  const handlePointerDown = (event) => {
+    if (event.pointerType !== 'mouse' || event.button !== 0) return
+    const slider = sliderRef.current
+    if (!slider) return
+    dragState.current = { pointerId: event.pointerId, startX: event.clientX, startScrollLeft: slider.scrollLeft, moved: false }
+    slider.setPointerCapture?.(event.pointerId)
+  }
+
+  const handlePointerMove = (event) => {
+    const slider = sliderRef.current
+    const drag = dragState.current
+    if (!slider || !drag || drag.pointerId !== event.pointerId) return
+    const distance = event.clientX - drag.startX
+    if (Math.abs(distance) > 4) drag.moved = true
+    if (!drag.moved) return
+    slider.scrollLeft = drag.startScrollLeft - distance
+  }
+
+  const handlePointerEnd = (event) => {
+    const slider = sliderRef.current
+    const drag = dragState.current
+    if (!slider || !drag || drag.pointerId !== event.pointerId) return
+    if (drag.moved) suppressCardClickUntil.current = Date.now() + 180
+    dragState.current = null
+    slider.releasePointerCapture?.(event.pointerId)
   }
 
   useEffect(() => {
@@ -420,7 +449,7 @@ export default function Projects({ lang }) {
         <div className="eyebrow">
           <span className="idx">03</span>PROJECTS{isEn ? '' : ' · vibe coding作品集'}
         </div>
-        <div className="proj-slider" ref={sliderRef} tabIndex="0" aria-label={isEn ? 'Project carousel: use the mouse wheel, arrow keys, or controls below to change cards' : '作品轮播：使用鼠标滚轮、左右方向键或下方按钮切换'} onKeyDown={(event) => { if (event.key === 'ArrowRight') { event.preventDefault(); goToProject(activeIndex + 1) } if (event.key === 'ArrowLeft') { event.preventDefault(); goToProject(activeIndex - 1) } }}>
+        <div className="proj-slider" ref={sliderRef} tabIndex="0" aria-label={isEn ? 'Project carousel: use the mouse wheel, drag cards, arrow keys, or controls below to change cards' : '作品轮播：使用鼠标滚轮、拖拽卡片、左右方向键或下方按钮切换'} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerEnd} onPointerCancel={handlePointerEnd} onKeyDown={(event) => { if (event.key === 'ArrowRight') { event.preventDefault(); goToProject(activeIndex + 1) } if (event.key === 'ArrowLeft') { event.preventDefault(); goToProject(activeIndex - 1) } }}>
           {entries.map((p, i) => (
             <div
               className={`proj-card ${i === activeIndex ? 'active' : ''} ${p.detailId ? 'has-detail' : ''}`}
@@ -428,7 +457,7 @@ export default function Projects({ lang }) {
               ref={(el) => (cardRefs.current[i] = el)}
               role={p.detailId ? 'button' : undefined}
               tabIndex={p.detailId ? 0 : undefined}
-              onClick={p.detailId ? () => setSelectedProject(p) : undefined}
+              onClick={p.detailId ? () => { if (Date.now() >= suppressCardClickUntil.current) setSelectedProject(p) } : undefined}
               onKeyDown={p.detailId ? (event) => { if (event.key === 'Enter' || event.key === ' ') setSelectedProject(p) } : undefined}
             >
               <div className={`proj-ph ${p.detailId === 'job-workbench' ? 'proj-ph-workbench' : ''} ${p.detailId === 'tancan-agent' ? 'proj-ph-agent' : ''} ${p.detailId === 'course-planner' ? 'proj-ph-timetable' : ''}`}>
