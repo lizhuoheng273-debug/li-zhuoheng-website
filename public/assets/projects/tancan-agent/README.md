@@ -83,14 +83,12 @@ Agent 拿到评分后会自动迭代修改，或交回负责人补充本地资�
 
 ## 部署形态
 
-项目同时提供两种部署形态，让同一套能力可在不同场景被消费：
+项目同时提供两种部署形态，让公司内部员工灵活配置使用：
 
 | 形态 | 技术栈 | 适用场景 |
 |---|---|---|
 | **Web 网站**（avatar-chat） | React 前端 + Flask 后端，GLM-5.1 驱动 Agent Loop，SSE 流式输出 | 内部团队日常使用、零配置上手 |
 | **MCP 服务端**（tancan-mcp-server） | Python + FastMCP（5 个工具：kb_search / iwiki_search / km_search / request_review / submit_draft），Streamable HTTP + stateless=True | Claude Code、WorkBuddy、内网龙虾等任意支持 MCP 的 Agent 平台直接调用 |
-
-项目同时是**腾讯内部 iWiki MCP Server 的客户端**（`iwiki_mcp_client.py`，手写 JSON-RPC 2.0），实现"调外部能力 + 暴露内部能力"的双向互通。
 
 ## 技术架构
 
@@ -110,7 +108,7 @@ Agent 拿到评分后会自动迭代修改，或交回负责人补充本地资�
 
 **4. 能力交付层 —— 工具封装与双部署**
 
-同一套能力以两种形态交付：Web 网站（React + Flask，SSE 流式输出）供内部团队零配置使用；FastMCP 服务端（5 个工具：kb_search / iwiki_search / km_search / request_review / submit_draft，Streamable HTTP + stateless）供 Claude Code、WorkBuddy、内网龙虾等任意支持 MCP 的 Agent 平台直接调用。项目同时作为腾讯内部 iWiki MCP Server 的客户端（手写 JSON-RPC 2.0），实现"调外部能力 + 暴露内部能力"的双向互通。
+同一套能力以两种形态交付：Web 网站（React + Flask，SSE 流式输出）供内部团队零配置使用；FastMCP 服务端（5 个工具：kb_search / iwiki_search / km_search / request_review / submit_draft，Streamable HTTP + stateless）供 Claude Code、WorkBuddy、内网龙虾等任意支持 MCP 的 Agent 平台直接调用。
 
 **5. 工程支撑 —— 记忆与上下文管理**
 

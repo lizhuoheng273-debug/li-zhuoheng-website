@@ -145,7 +145,7 @@ Executive-facing materials for roundtables, regulatory visits, and media intervi
 | Blind evaluation | Two AI evaluators independently score five dimensions—theme, logic, evidence, information gain, and audience awareness—with third-model arbitration when needed. |
 | Style refinement | Uses templates for roundtables, speeches, interviews, regulatory visits, partner visits, and internal sharing; custom style profiles are also supported. |
 | Structured knowledge base | 1,907 structured chunks with 13-dimensional metadata and a three-level knowledge graph support filtering and related analysis. |
-| Cross-platform delivery | The same capability is available through the Web app and MCP for tools such as Claude Code and WorkBuddy. |
+| Cross-platform delivery | Company employees can call the same capability across Web and MCP. |
 
 ## Main interface
 
@@ -290,7 +290,7 @@ function MarkdownArticle({ source, projectId, projectTitle, onImageClick, lang }
     if (line.startsWith('# ')) return <h2 key={index}>{line.slice(2)}</h2>
     if (line.startsWith('## ')) return <h3 key={index}>{line.slice(3).replace('（面试可展开）', '')}</h3>
     if (line.startsWith('### ')) return <h4 key={index}>{line.slice(4)}</h4>
-    if (line.startsWith('- ')) return <p className="project-md-bullet" key={index}><span>•</span><InlineMarkdown text={line.slice(2)} /></p>
+    if (line.startsWith('- ')) return <p className="project-md-bullet" key={index}><span>•</span><span className="project-md-bullet-copy"><InlineMarkdown text={line.slice(2)} /></span></p>
     if (line.startsWith('|')) return <p className="project-md-table" key={index}>{line.split('|').filter(Boolean).join('  ·  ')}</p>
     if (line.startsWith('> ')) return <blockquote key={index}><InlineMarkdown text={line.slice(2)} /></blockquote>
     return line.trim() ? <p key={index}><InlineMarkdown text={line} /></p> : null

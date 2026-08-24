@@ -140,7 +140,7 @@ export const projects = [
     meta: '个人项目 · 2024 – 2025',
     title: '谈参 Agent · avatar-chat',
     detailId: 'tancan-agent',
-    desc: '面向高管谈参场景的 AI Copilot：自主完成需求拆解、多源检索、草稿撰写、双 AI 五维评分与风格润色；知识库沉淀 1,907 条结构化切片，并可通过 Web 与 MCP 跨平台调用。',
+    desc: '面向高管谈参场景的 AI Copilot：自主完成需求拆解、多源检索、草稿撰写、双 AI 五维评分与风格润色；公司员工可以通过Web和MCP跨平台调用。',
     tags: ['React', 'Flask', 'Agent Loop', 'GLM', 'MCP'],
     cta: '#',
     ctaText: '打开作品链接',
@@ -168,7 +168,7 @@ export const projects = [
 ]
 
 export const projectsEn = [
-  { icon: '◈', title: 'Negotiation Agent · avatar-chat', detailId: 'tancan-agent', desc: 'An AI copilot for executive negotiation: it independently decomposes requirements, retrieves information, drafts content, conducts dual-AI five-dimensional evaluation, and refines style. Its knowledge base contains 1,907 structured chunks and supports Web and MCP usage.', tags: ['React', 'Flask', 'Agent Loop', 'GLM', 'MCP'], cta: '#', ctaText: 'Open project' },
+  { icon: '◈', title: 'Negotiation Agent · avatar-chat', detailId: 'tancan-agent', desc: 'An AI copilot for executive negotiation: it independently decomposes requirements, retrieves information, drafts content, conducts dual-AI five-dimensional evaluation, and refines style. Company employees can call it across Web and MCP.', tags: ['React', 'Flask', 'Agent Loop', 'GLM', 'MCP'], cta: '#', ctaText: 'Open project' },
   { icon: '▦', title: 'Job Search Workbench', detailId: 'job-workbench', desc: 'An AI-powered job-search management system: scans 20+ official career sites daily, scores opportunities against a candidate profile, admits roles scoring 70 or above, and unifies tracking for saved roles, applications, and interviews.', tags: ['AI web search', 'SQLite', 'Smart scoring', 'Job tracking', 'Auto publish'], cta: '#', ctaText: 'Open project' },
   { icon: '◐', title: 'HKU MFFinTech Interactive Timetable', detailId: 'course-planner', desc: 'An interactive planner built on real course dates: visualizes 42 course sections across 402 teaching days, detects time conflicts, and supports weekly views, recommended plans, and local saving.', tags: ['HTML', 'JavaScript', 'Conflict detection', 'Weekly view', 'Plan reuse'], cta: '#', ctaText: 'Open project' },
 ]
