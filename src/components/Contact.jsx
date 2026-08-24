@@ -52,7 +52,7 @@ export default function Contact({ lang }) {
   }
 
   return (
-    <section id="contact" className={`screen light ${inView ? 'inview' : ''}`} ref={ref}>
+    <section id="contact" className={`screen light contact-lang-${isEn ? 'en' : 'zh'} ${inView ? 'inview' : ''}`} ref={ref}>
       <div className="content">
         <div className="eyebrow contact-heading"><span className="idx">04</span>CONTACT{isEn ? '' : ' · 联系'}</div>
         <div className="contact-layout">
