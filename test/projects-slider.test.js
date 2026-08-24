@@ -69,3 +69,15 @@ test('the WeChat contact opens its copy bubble on touch devices', async () => {
   assert.match(source, /id: 'wechat',[\s\S]*?copyOnly: true/)
   assert.match(source, /if \(isTouchDevice\(\) && contact\.copyOnly\) \{[\s\S]*?event\.preventDefault\(\)[\s\S]*?setOpenContact/)
 })
+
+test('phone copy values omit country-code prefixes', async () => {
+  const source = await readFile(new URL('../src/components/Contact.jsx', import.meta.url), 'utf8')
+  assert.match(source, /id: 'phone-cn',[\s\S]*?value: '13802768902'/)
+  assert.match(source, /id: 'phone-hk',[\s\S]*?value: '60605456'/)
+})
+
+test('swiping the project carousel updates the active card', async () => {
+  const source = await readFile(new URL('../src/components/Projects.jsx', import.meta.url), 'utf8')
+  assert.match(source, /const onScroll = \(\) => \{[\s\S]*?setActiveIndex\(/)
+  assert.match(source, /slider\.addEventListener\('scroll', onScroll, \{ passive: true \}\)/)
+})

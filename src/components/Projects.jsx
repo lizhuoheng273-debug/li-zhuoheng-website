@@ -379,6 +379,38 @@ export default function Projects({ lang }) {
     slider.scrollTo({ left: card.offsetLeft - (slider.clientWidth - card.clientWidth) / 2, behavior: 'smooth' })
   }, [activeIndex])
 
+  useEffect(() => {
+    const slider = sliderRef.current
+    if (!slider) return undefined
+    let frame = null
+
+    const onScroll = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        frame = null
+        const viewportCenter = slider.scrollLeft + slider.clientWidth / 2
+        let nextIndex = 0
+        let smallestDistance = Infinity
+        cardRefs.current.forEach((card, index) => {
+          if (!card) return
+          const cardCenter = card.offsetLeft + card.clientWidth / 2
+          const distance = Math.abs(cardCenter - viewportCenter)
+          if (distance < smallestDistance) {
+            smallestDistance = distance
+            nextIndex = index
+          }
+        })
+        setActiveIndex((current) => current === nextIndex ? current : nextIndex)
+      })
+    }
+
+    slider.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      slider.removeEventListener('scroll', onScroll)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
+  }, [entries.length])
+
   return (
     <section id="projects" className={`screen light ${inView ? 'inview' : ''}`} ref={ref}>
       <div className="content">
