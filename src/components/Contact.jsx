@@ -19,7 +19,7 @@ export default function Contact({ lang }) {
     { id: 'email', icon: 'mail', label: 'vincentli@connect.hku.hk', value: 'vincentli@connect.hku.hk', href: 'mailto:vincentli@connect.hku.hk' },
     { id: 'phone-cn', icon: 'phone', label: '(+86) 138 0276 8902', value: '+86 138 0276 8902', href: 'tel:+8613802768902' },
     { id: 'phone-hk', icon: 'phone', label: '(+852) 6060 5456', value: '+852 6060 5456', href: 'tel:+85260605456' },
-    { id: 'wechat', icon: 'wechat', label: 'VincentLiiiiiii', value: 'VincentLiiiiiii', href: 'weixin://' },
+    { id: 'wechat', icon: 'wechat', label: 'VincentLiiiiiii', value: 'VincentLiiiiiii', href: 'weixin://', copyOnly: true },
   ]
 
   const isTouchDevice = () => window.matchMedia?.('(hover: none), (pointer: coarse)').matches
@@ -40,6 +40,11 @@ export default function Contact({ lang }) {
   }
 
   const handleContactClick = (event, contact) => {
+    if (isTouchDevice() && contact.copyOnly) {
+      event.preventDefault()
+      setOpenContact((current) => current === contact.id ? null : contact.id)
+      return
+    }
     if (isTouchDevice()) {
       void copyContact(contact)
       return

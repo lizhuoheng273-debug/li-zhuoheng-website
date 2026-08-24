@@ -63,3 +63,9 @@ test('contact copy action is a transient bubble above its own pill', async () =>
   assert.match(css, /\.contact-copy-button\{[^}]*background:#fff/)
   assert.doesNotMatch(css, /\.contact-copy-button\{margin-left:/)
 })
+
+test('the WeChat contact opens its copy bubble on touch devices', async () => {
+  const source = await readFile(new URL('../src/components/Contact.jsx', import.meta.url), 'utf8')
+  assert.match(source, /id: 'wechat',[\s\S]*?copyOnly: true/)
+  assert.match(source, /if \(isTouchDevice\(\) && contact\.copyOnly\) \{[\s\S]*?event\.preventDefault\(\)[\s\S]*?setOpenContact/)
+})
