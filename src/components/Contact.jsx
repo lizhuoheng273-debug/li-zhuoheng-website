@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useInView } from '../hooks'
 
 function ContactIcon({ type }) {
@@ -13,16 +13,17 @@ function ContactIcon({ type }) {
 
 export default function Contact({ lang }) {
   const [ref, inView] = useInView()
-  const [openContact, setOpenContact] = useState(null)
+  const [copyNotice, setCopyNotice] = useState('')
+  const copyNoticeTimer = useRef(null)
   const isEn = lang === 'en'
   const contacts = [
     { id: 'email', icon: 'mail', label: 'vincentli@connect.hku.hk', value: 'vincentli@connect.hku.hk', href: 'mailto:vincentli@connect.hku.hk' },
     { id: 'phone-cn', icon: 'phone', label: '(+86) 138 0276 8902', value: '13802768902', href: 'tel:+8613802768902' },
     { id: 'phone-hk', icon: 'phone', label: '(+852) 6060 5456', value: '60605456', href: 'tel:+85260605456' },
-    { id: 'wechat', icon: 'wechat', label: 'VincentLiiiiiii', value: 'VincentLiiiiiii', href: 'weixin://', copyOnly: true },
+    { id: 'wechat', icon: 'wechat', label: 'VincentLiiiiiii', value: 'VincentLiiiiiii', href: 'weixin://' },
+    { id: 'location', icon: 'pin', label: isEn ? 'Shenzhen / Hong Kong' : '深圳 / 香港', value: isEn ? 'Shenzhen / Hong Kong' : '深圳 / 香港', href: '#contact' },
   ]
 
-  const isTouchDevice = () => window.matchMedia?.('(hover: none), (pointer: coarse)').matches
   const copyContact = async (contact) => {
     try {
       await navigator.clipboard.writeText(contact.value)
@@ -36,21 +37,18 @@ export default function Contact({ lang }) {
       document.execCommand('copy')
       input.remove()
     }
-    setOpenContact(null)
+    setCopyNotice(isEn ? 'Copied' : '已复制')
+    if (copyNoticeTimer.current) window.clearTimeout(copyNoticeTimer.current)
+    copyNoticeTimer.current = window.setTimeout(() => setCopyNotice(''), 1700)
   }
 
+  useEffect(() => () => {
+    if (copyNoticeTimer.current) window.clearTimeout(copyNoticeTimer.current)
+  }, [])
+
   const handleContactClick = (event, contact) => {
-    if (isTouchDevice() && contact.copyOnly) {
-      event.preventDefault()
-      setOpenContact((current) => current === contact.id ? null : contact.id)
-      return
-    }
-    if (isTouchDevice()) {
-      void copyContact(contact)
-      return
-    }
     event.preventDefault()
-    setOpenContact((current) => current === contact.id ? null : contact.id)
+    void copyContact(contact)
   }
 
   return (
@@ -70,26 +68,26 @@ export default function Contact({ lang }) {
             </div>
           </div>
           <div className="contact-copy">
-            <h2>{isEn ? 'Let’s talk.' : '聊聊吧。'}</h2>
+            <h2>{isEn ? 'Let’s create the next chapter together.' : '下一段经历我们一起来创造'}</h2>
             <div className="contact-keywords">FinTech · AI Product · Investment Analysis</div>
             <div className="contact-focus">
               <span>{isEn ? 'AI Product' : 'AI 产品'}</span><span>{isEn ? 'AI Agents' : '智能体'}</span><span>{isEn ? 'FinTech Analysis' : '金融科技商分'}</span><span>{isEn ? 'Internships & Collaboration' : '实习与合作机会'}</span>
             </div>
             <p className="contact-slogan">{isEn ? 'Turning AI capabilities into real business value and products people genuinely use.' : '把 AI 能力落进真实业务，让产品真正被人使用。'}</p>
-            <div className="contact-line" aria-label="联系方式">
-              {contacts.map((contact) => (
-                <div className={`contact-action ${openContact === contact.id ? 'open' : ''}`} key={contact.id}>
-                  <a href={contact.href} onClick={(event) => handleContactClick(event, contact)}><ContactIcon type={contact.icon} />{contact.label}</a>
-                  {openContact === contact.id && (
-                    <button className="contact-copy-button" type="button" onClick={() => void copyContact(contact)}>{isEn ? 'Copy' : '复制'}</button>
-                  )}
-                </div>
-              ))}
-              <span><ContactIcon type="pin" />{isEn ? 'Shenzhen / Hong Kong' : '深圳 / 香港'}</span>
+            <div className="contact-line" aria-label={isEn ? 'Find me in' : '联系方式'}>
+              <div className="contact-find-label">Find me in:</div>
+              <div className="contact-list">
+                {contacts.map((contact) => (
+                  <div className="contact-action" key={contact.id}>
+                    <a href={contact.href} onClick={(event) => handleContactClick(event, contact)}><ContactIcon type={contact.icon} />{contact.label}</a>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
+      {copyNotice && <div className="contact-copy-toast" role="status" aria-live="polite">{copyNotice}</div>}
     </section>
   )
 }
