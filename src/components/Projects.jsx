@@ -356,8 +356,7 @@ export default function Projects({ lang }) {
     if (event.pointerType !== 'mouse' || event.button !== 0) return
     const slider = sliderRef.current
     if (!slider) return
-    dragState.current = { pointerId: event.pointerId, startX: event.clientX, startScrollLeft: slider.scrollLeft, moved: false }
-    slider.setPointerCapture?.(event.pointerId)
+    dragState.current = { pointerId: event.pointerId, startX: event.clientX, startScrollLeft: slider.scrollLeft, moved: false, captured: false }
   }
 
   const handlePointerMove = (event) => {
@@ -365,7 +364,13 @@ export default function Projects({ lang }) {
     const drag = dragState.current
     if (!slider || !drag || drag.pointerId !== event.pointerId) return
     const distance = event.clientX - drag.startX
-    if (Math.abs(distance) > 4) drag.moved = true
+    if (Math.abs(distance) > 4 && !drag.moved) {
+      drag.moved = true
+      // Capturing from pointer-down makes every click land on the slider and
+      // blocks card/button actions. Only capture once this is a real drag.
+      slider.setPointerCapture?.(event.pointerId)
+      drag.captured = true
+    }
     if (!drag.moved) return
     slider.scrollLeft = drag.startScrollLeft - distance
   }
@@ -376,7 +381,7 @@ export default function Projects({ lang }) {
     if (!slider || !drag || drag.pointerId !== event.pointerId) return
     if (drag.moved) suppressCardClickUntil.current = Date.now() + 180
     dragState.current = null
-    slider.releasePointerCapture?.(event.pointerId)
+    if (drag.captured) slider.releasePointerCapture?.(event.pointerId)
   }
 
   useEffect(() => {
