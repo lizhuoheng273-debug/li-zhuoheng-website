@@ -323,7 +323,7 @@ filter:blur(22px);z-index:0}
 .contact-focus{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0}.contact-focus span{padding:8px 12px;border-radius:999px;background:#f3f3f1;color:var(--ink);font-size:14px;font-weight:750}
 .contact-slogan{max-width:680px;color:var(--ink-2);font-size:clamp(19px,2vw,25px);font-family:var(--serif);line-height:1.55;letter-spacing:-.02em}
 .contact-line{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding-top:21px;margin-top:auto;border-top:1px solid var(--hairline);font-family:"Inter",var(--sans);font-size:12px;font-weight:700;color:var(--ink-2)}
-.contact-line>a:not(.contact-resume),.contact-line>span{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid rgba(16,18,20,.11);border-radius:999px;background:#fff;transition:border-color .16s,color .16s}.contact-line>a:not(.contact-resume):hover{border-color:var(--ink);color:var(--ink)}.contact-icon{width:14px;height:14px;flex:0 0 auto;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.contact-action{position:relative;display:inline-flex;align-items:center}.contact-action>a,.contact-line>span{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid rgba(16,18,20,.11);border-radius:999px;background:#fff;color:var(--ink-2);transition:background .16s,border-color .16s,color .16s,transform .16s}.contact-action>a:hover,.contact-action.open>a{border-color:var(--ink);background:var(--ink);color:#fff;transform:translateY(-1px)}.contact-action.copied>a{background:var(--ink);color:#fff}.contact-copy-button{margin-left:5px;padding:8px 10px;border:0;border-radius:999px;background:var(--ink);color:#fff;font:inherit;font-size:11px;font-weight:800;cursor:pointer;box-shadow:0 5px 12px rgba(16,18,20,.16);transition:background .16s,transform .16s}.contact-copy-button:hover{background:var(--accent);transform:translateY(-1px)}.contact-icon{width:14px;height:14px;flex:0 0 auto;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .contact-resume{margin-left:auto;padding:11px 17px;border-radius:999px;background:var(--ink);color:#fff;transition:background .16s,transform .16s}.contact-resume:hover{background:var(--accent);transform:translateY(-1px)}
 
 /* ============ 入场动效（纯 CSS 首屏淡入，由 React 添加 .inview）============ */
@@ -399,6 +399,7 @@ filter:blur(22px);z-index:0}
   .contact-id-card{width:min(330px,100%);justify-self:center}
   .contact-copy{text-align:center}.contact-focus{justify-content:center}.contact-slogan{margin:0 auto}
   .contact-line{justify-content:center;margin-top:30px}.contact-resume{margin-left:0}
+  .contact-action>a:active{border-color:var(--ink);background:var(--ink);color:#fff;transform:scale(.98)}
 }
 
 /* ===== ScrollStack（自研复刻 React Bits "Scroll Stack" · 零依赖 rAF） ===== */

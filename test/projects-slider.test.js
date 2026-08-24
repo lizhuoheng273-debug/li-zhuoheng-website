@@ -44,3 +44,13 @@ test('portfolio does not render the internal layout debug badge', async () => {
   assert.doesNotMatch(source, /方案 F · 全屏布局 · 自由下滑/)
   assert.doesNotMatch(source, /Portfolio · Full-screen · Free scroll/)
 })
+
+test('contact pills provide copy actions and a mobile deep-link fallback', async () => {
+  const source = await readFile(new URL('../src/components/Contact.jsx', import.meta.url), 'utf8')
+  const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8')
+  assert.match(source, /navigator\.clipboard\.writeText/)
+  assert.match(source, /weixin:\/\//)
+  assert.match(source, /className={`contact-action/)
+  assert.match(css, /\.contact-action>a:hover,\.contact-action\.open>a/)
+  assert.match(css, /\.contact-copy-button/)
+})
