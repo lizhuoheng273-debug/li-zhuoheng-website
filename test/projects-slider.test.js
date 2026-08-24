@@ -81,3 +81,9 @@ test('swiping the project carousel updates the active card', async () => {
   assert.match(source, /const onScroll = \(\) => \{[\s\S]*?setActiveIndex\(/)
   assert.match(source, /slider\.addEventListener\('scroll', onScroll, \{ passive: true \}\)/)
 })
+
+test('experience heading aligns with later sections and only scales down on mobile', async () => {
+  const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8')
+  assert.match(css, /\.experience-heading\{[^}]*padding-left:0/)
+  assert.match(css, /@media \(max-width:680px\)\{[\s\S]*?\.section-eyebrow,#projects \.eyebrow,\.contact-heading\{[^}]*font-size:20px/)
+})

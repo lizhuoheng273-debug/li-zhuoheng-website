@@ -586,7 +586,7 @@ filter:blur(22px);z-index:0}
 
 /* ===== 实习经历：连续时间线阅读 ===== */
 .timeline-experience{--timeline:#c9d9fb;padding:clamp(72px,9vw,118px) 94px clamp(56px,6vw,80px);background:#fff}
-.experience-heading{width:100%;max-width:1620px;margin:0 auto 30px;padding-left:72px;text-align:left}
+.experience-heading{width:100%;max-width:1620px;margin:0 auto 30px;padding-left:0;text-align:left}
 .section-eyebrow,#projects .eyebrow,.contact-heading{display:flex;align-items:center;gap:18px;font-size:28px;font-weight:800;letter-spacing:2.7px;color:var(--ink-3)}.section-eyebrow .idx{font-family:"Inter",sans-serif;font-variant-numeric:tabular-nums;color:var(--accent)}
 #projects .eyebrow{margin-bottom:38px}
 .experience-timeline{position:relative;width:100%;max-width:1620px;margin:0 auto;padding:0 0 0 72px;list-style:none}
@@ -597,5 +597,5 @@ filter:blur(22px);z-index:0}
 .experience-date{font-family:"Inter",sans-serif;font-size:13px;font-weight:800;letter-spacing:.03em;color:var(--accent);margin-bottom:16px}
 .experience-card-header{display:flex;align-items:flex-start;margin-bottom:18px}.experience-card .expc-id{gap:4px;align-items:flex-start}.experience-card .expc-company{margin:0;font-size:clamp(20px,2vw,26px);font-weight:800;line-height:1.25;letter-spacing:-.015em;color:var(--ink)}.experience-card .expc-role{margin:0;font-size:clamp(14px,1.3vw,16px);font-weight:700;line-height:1.68;letter-spacing:0;color:var(--ink)}
 .experience-card .expc-body{gap:10px;overflow:visible;padding:0}.experience-card .expc-body p{position:relative;padding-left:15px;font-size:clamp(14px,1.3vw,16px);line-height:1.68}.experience-card .expc-body p::before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent)}.experience-card .expc-body b{color:var(--ink);font-weight:800}.experience-highlight{padding:0;background:transparent;color:var(--accent);font-weight:700}
-@media (max-width:900px){.timeline-experience{padding:84px 31px 72px}.experience-heading{padding-left:48px}.experience-timeline{padding-left:48px}}
-@media (max-width:680px){.timeline-experience{padding-left:18px;padding-right:18px}.experience-heading{margin-bottom:30px}.experience-timeline::before{left:17px}.experience-marker{top:18px;left:-48px;width:36px;height:36px;font-size:11px;box-shadow:0 0 0 5px #f8fbff}.experience-entry{padding-bottom:18px}.experience-card{border-radius:14px;padding:22px 20px}.experience-card-header{margin-bottom:15px}.experience-card .expc-company{font-size:19px}.experience-card .expc-role{font-size:14px}}
+@media (max-width:900px){.timeline-experience{padding:84px 31px 72px}.experience-heading{padding-left:0}.experience-timeline{padding-left:48px}}
+@media (max-width:680px){.timeline-experience{padding-left:18px;padding-right:18px}.experience-heading{margin-bottom:30px}.section-eyebrow,#projects .eyebrow,.contact-heading{gap:12px;font-size:20px;letter-spacing:1.7px}.experience-timeline::before{left:17px}.experience-marker{top:18px;left:-48px;width:36px;height:36px;font-size:11px;box-shadow:0 0 0 5px #f8fbff}.experience-entry{padding-bottom:18px}.experience-card{border-radius:14px;padding:22px 20px}.experience-card-header{margin-bottom:15px}.experience-card .expc-company{font-size:19px}.experience-card .expc-role{font-size:14px}}
