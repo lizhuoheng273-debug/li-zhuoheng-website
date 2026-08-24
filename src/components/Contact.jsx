@@ -14,7 +14,6 @@ function ContactIcon({ type }) {
 export default function Contact({ lang }) {
   const [ref, inView] = useInView()
   const [openContact, setOpenContact] = useState(null)
-  const [copiedContact, setCopiedContact] = useState(null)
   const isEn = lang === 'en'
   const contacts = [
     { id: 'email', icon: 'mail', label: 'vincentli@connect.hku.hk', value: 'vincentli@connect.hku.hk', href: 'mailto:vincentli@connect.hku.hk' },
@@ -37,9 +36,7 @@ export default function Contact({ lang }) {
       document.execCommand('copy')
       input.remove()
     }
-    setCopiedContact(contact.id)
-    setOpenContact(contact.id)
-    window.setTimeout(() => setCopiedContact((current) => current === contact.id ? null : current), 1600)
+    setOpenContact(null)
   }
 
   const handleContactClick = (event, contact) => {
@@ -76,12 +73,10 @@ export default function Contact({ lang }) {
             <p className="contact-slogan">{isEn ? 'Turning AI capabilities into real business value and products people genuinely use.' : '把 AI 能力落进真实业务，让产品真正被人使用。'}</p>
             <div className="contact-line" aria-label="联系方式">
               {contacts.map((contact) => (
-                <div className={`contact-action ${openContact === contact.id ? 'open' : ''} ${copiedContact === contact.id ? 'copied' : ''}`} key={contact.id}>
+                <div className={`contact-action ${openContact === contact.id ? 'open' : ''}`} key={contact.id}>
                   <a href={contact.href} onClick={(event) => handleContactClick(event, contact)}><ContactIcon type={contact.icon} />{contact.label}</a>
                   {openContact === contact.id && (
-                    <button className="contact-copy-button" type="button" onClick={() => void copyContact(contact)}>
-                      {copiedContact === contact.id ? (isEn ? 'Copied' : '已复制') : (isEn ? 'Copy' : '复制')}
-                    </button>
+                    <button className="contact-copy-button" type="button" onClick={() => void copyContact(contact)}>{isEn ? 'Copy' : '复制'}</button>
                   )}
                 </div>
               ))}

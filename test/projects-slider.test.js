@@ -54,3 +54,12 @@ test('contact pills provide copy actions and a mobile deep-link fallback', async
   assert.match(css, /\.contact-action>a:hover,\.contact-action\.open>a/)
   assert.match(css, /\.contact-copy-button/)
 })
+
+test('contact copy action is a transient bubble above its own pill', async () => {
+  const source = await readFile(new URL('../src/components/Contact.jsx', import.meta.url), 'utf8')
+  const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8')
+  assert.match(source, /setOpenContact\(null\)/)
+  assert.match(css, /\.contact-copy-button\{[^}]*position:absolute[^}]*bottom:calc\(100% \+ 8px\)/)
+  assert.match(css, /\.contact-copy-button\{[^}]*background:#fff/)
+  assert.doesNotMatch(css, /\.contact-copy-button\{margin-left:/)
+})
