@@ -340,6 +340,9 @@ export default function Projects({ lang }) {
   const sliderRef = useRef(null)
   const cardRefs = useRef([])
   const wheelLocked = useRef(false)
+  const programmaticScroll = useRef(false)
+  const programmaticTarget = useRef(null)
+  const scrollReleaseTimer = useRef(null)
   const dragState = useRef(null)
   const suppressCardClickUntil = useRef(0)
   const [selectedProject, setSelectedProject] = useState(null)
@@ -349,6 +352,8 @@ export default function Projects({ lang }) {
 
   const goToProject = (index) => {
     const nextIndex = Math.max(0, Math.min(entries.length - 1, index))
+    if (nextIndex === activeIndex) return
+    programmaticScroll.current = true
     setActiveIndex(nextIndex)
   }
 
@@ -356,6 +361,8 @@ export default function Projects({ lang }) {
     if (event.pointerType !== 'mouse' || event.button !== 0) return
     const slider = sliderRef.current
     if (!slider) return
+    programmaticScroll.current = false
+    if (scrollReleaseTimer.current) window.clearTimeout(scrollReleaseTimer.current)
     dragState.current = { pointerId: event.pointerId, startX: event.clientX, startScrollLeft: slider.scrollLeft, moved: false, captured: false }
   }
 
@@ -391,7 +398,10 @@ export default function Projects({ lang }) {
     const onWheel = (event) => {
       if (wheelLocked.current) return
       const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
-      if (Math.abs(delta) < 8) return
+      // The in-app browser can emit a very small wheel delta (around 1px).
+      // Treat that as a deliberate wheel step; the lock below still keeps one
+      // physical wheel gesture to a single card transition.
+      if (Math.abs(delta) < 0.5) return
 
       const nextIndex = Math.max(0, Math.min(entries.length - 1, activeIndex + (delta > 0 ? 1 : -1)))
       // At either end, let the page continue its normal vertical scroll.
@@ -413,7 +423,17 @@ export default function Projects({ lang }) {
     const slider = sliderRef.current
     const card = cardRefs.current[activeIndex]
     if (!slider || !card) return
-    slider.scrollTo({ left: card.offsetLeft - (slider.clientWidth - card.clientWidth) / 2, behavior: 'smooth' })
+    const targetLeft = card.offsetLeft - (slider.clientWidth - card.clientWidth) / 2
+    if (Math.abs(slider.scrollLeft - targetLeft) < 1) {
+      programmaticScroll.current = false
+      return
+    }
+    programmaticTarget.current = targetLeft
+    slider.scrollTo({ left: targetLeft, behavior: 'smooth' })
+    if (scrollReleaseTimer.current) window.clearTimeout(scrollReleaseTimer.current)
+    scrollReleaseTimer.current = window.setTimeout(() => {
+      programmaticScroll.current = false
+    }, 700)
   }, [activeIndex])
 
   useEffect(() => {
@@ -425,6 +445,16 @@ export default function Projects({ lang }) {
       if (frame) return
       frame = window.requestAnimationFrame(() => {
         frame = null
+        // A button, key or wheel navigation animates scrollLeft to the next
+        // card. Do not let intermediate positions reset activeIndex before
+        // that animation arrives at its intended card.
+        if (programmaticScroll.current) {
+          if (programmaticTarget.current != null && Math.abs(slider.scrollLeft - programmaticTarget.current) < 2) {
+            programmaticScroll.current = false
+            if (scrollReleaseTimer.current) window.clearTimeout(scrollReleaseTimer.current)
+          }
+          return
+        }
         const viewportCenter = slider.scrollLeft + slider.clientWidth / 2
         let nextIndex = 0
         let smallestDistance = Infinity
