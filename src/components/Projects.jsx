@@ -266,7 +266,13 @@ course-timetable-builder.zip
 }
 
 function InlineMarkdown({ text }) {
-  return text.split(/(\*\*.*?\*\*)/g).map((part, index) => part.startsWith('**') ? <strong key={index}>{part.slice(2, -2)}</strong> : part)
+  return text.split(/(\*\*.*?\*\*|\[[^\]]+\]\(https?:\/\/[^)]+\)|https?:\/\/\S+)/g).map((part, index) => {
+    if (part.startsWith('**')) return <strong key={index}>{part.slice(2, -2)}</strong>
+    const markdownLink = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/)
+    if (markdownLink) return <a className="project-md-link" key={index} href={markdownLink[2]} target="_blank" rel="noreferrer">{markdownLink[1]}</a>
+    if (part.startsWith('http://') || part.startsWith('https://')) return <a className="project-md-link" key={index} href={part} target="_blank" rel="noreferrer">{part}</a>
+    return part
+  })
 }
 
 function MarkdownArticle({ source, projectId, projectTitle, onImageClick, lang }) {

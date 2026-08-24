@@ -73,7 +73,6 @@ export default function Contact({ lang }) {
             <div className="contact-focus">
               <span>{isEn ? 'AI Product' : 'AI 产品'}</span><span>{isEn ? 'AI Agents' : '智能体'}</span><span>{isEn ? 'FinTech Analysis' : '金融科技商分'}</span><span>{isEn ? 'Internships & Collaboration' : '实习与合作机会'}</span>
             </div>
-            <p className="contact-slogan">{isEn ? 'Turning AI capabilities into real business value and products people genuinely use.' : '把 AI 能力落进真实业务，让产品真正被人使用。'}</p>
             <div className="contact-line" aria-label={isEn ? 'Find me in' : '联系方式'}>
               <div className="contact-find-label">Find me in:</div>
               <div className="contact-list">
