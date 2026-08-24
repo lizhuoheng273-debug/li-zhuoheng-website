@@ -326,7 +326,7 @@ filter:blur(22px);z-index:0}
 .contact-focus{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0}.contact-focus span{padding:8px 12px;border-radius:999px;background:#f3f3f1;color:var(--ink);font-size:14px;font-weight:750}
 .contact-slogan{max-width:680px;color:var(--ink-2);font-size:clamp(20px,2.1vw,23px);font-family:var(--sans);line-height:1.75;letter-spacing:0}
 .contact-line{padding-top:21px;margin-top:clamp(24px,3.5vw,48px);border-top:1px solid var(--hairline);font-family:"Inter",var(--sans);font-size:12px;font-weight:700;color:var(--ink-2)}
-.contact-find-label{color:var(--ink-3);font-size:12px;font-weight:800;letter-spacing:.08em}.contact-list{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-top:18px}.contact-action{position:relative;display:inline-flex;align-items:center}.contact-action>a{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid rgba(16,18,20,.11);border-radius:999px;background:#fff;color:var(--ink-2);transition:background .16s,border-color .16s,color .16s,transform .16s}.contact-action>a:hover,.contact-action>a:focus-visible{border-color:var(--ink);background:var(--ink);color:#fff;transform:translateY(-1px);outline:none}.contact-icon{width:14px;height:14px;flex:0 0 auto;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.contact-find-label{color:var(--ink-3);font-size:12px;font-weight:800;letter-spacing:.08em}.contact-list{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-top:18px}.contact-action{position:relative;display:inline-flex;align-items:center}.contact-action>a{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid var(--accent);border-radius:999px;background:var(--accent);color:#fff;transition:background .16s,border-color .16s,color .16s,transform .16s}.contact-action>a:hover,.contact-action>a:focus-visible{border-color:var(--accent-700);background:var(--accent-700);color:#fff;transform:translateY(-1px);outline:none}.contact-icon{width:14px;height:14px;flex:0 0 auto;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .contact-copy-toast{position:fixed;z-index:20;left:50%;bottom:28px;padding:10px 16px;border-radius:999px;background:var(--ink);color:#fff;font-family:"Inter",var(--sans);font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 24px rgba(16,18,20,.2);transform:translateX(-50%);animation:contact-toast-in .18s ease-out}
 .contact-resume{margin-left:auto;padding:11px 17px;border-radius:999px;background:var(--ink);color:#fff;transition:background .16s,transform .16s}.contact-resume:hover{background:var(--accent);transform:translateY(-1px)}
 
@@ -405,7 +405,7 @@ filter:blur(22px);z-index:0}
   .contact-copy{text-align:center}.contact-focus{justify-content:center}.contact-slogan{margin:0 auto}
   .hero-cta{gap:10px}.hero-cta .btn{height:52px;padding:0 24px;font-size:16px}
   .contact-line{text-align:center;margin-top:24px}.contact-list{align-items:center;gap:12px;margin-top:18px}.contact-resume{margin-left:0}
-  .contact-action>a:active{border-color:var(--ink);background:var(--ink);color:#fff;transform:scale(.98)}
+  .contact-action>a:active{border-color:var(--accent-700);background:var(--accent-700);color:#fff;transform:scale(.98)}
 }
 
 /* ===== ScrollStack（自研复刻 React Bits "Scroll Stack" · 零依赖 rAF） ===== */
