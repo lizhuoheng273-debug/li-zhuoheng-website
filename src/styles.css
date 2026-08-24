@@ -191,10 +191,12 @@ filter:blur(22px);z-index:0}
 .proj-slider::-webkit-scrollbar{display:none}
 .proj-slider:focus-visible{outline:3px solid rgba(0,82,255,.45);outline-offset:6px}
 @media (hover:hover) and (pointer:fine){.proj-slider{cursor:grab;user-select:none}.proj-slider:active{cursor:grabbing}.proj-slider button,.proj-slider a{cursor:pointer}}
-.project-carousel-controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:-31px;position:relative;z-index:2}
-.project-carousel-controls>button{width:32px;height:32px;border:1px solid var(--hairline);border-radius:50%;background:#fff;color:var(--ink);font-size:17px;line-height:1;cursor:pointer;transition:.16s}
-.project-carousel-controls>button:hover:not(:disabled){border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
-.project-carousel-controls>button:disabled{opacity:.32;cursor:not-allowed}
+.project-carousel-controls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:-34px;position:relative;z-index:2}
+.project-carousel-controls>.carousel-nav-button{min-width:104px;height:42px;padding:0 15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--hairline);border-radius:999px;background:#fff;color:var(--ink);font-size:14px;font-weight:750;line-height:1;cursor:pointer;transition:.16s}
+.carousel-nav-button span{font-size:20px;line-height:1}
+.carousel-nav-button em{font-size:12px;font-style:normal}
+.project-carousel-controls>.carousel-nav-button:hover:not(:disabled){border-color:var(--accent);color:var(--accent);box-shadow:0 7px 17px rgba(20,91,255,.14);transform:translateY(-1px)}
+.project-carousel-controls>.carousel-nav-button:disabled{opacity:.32;cursor:not-allowed}
 .project-carousel-dots{display:flex;align-items:center;gap:7px}
 .project-carousel-dots button{width:7px;height:7px;padding:0;border:0;border-radius:999px;background:rgba(16,18,20,.2);cursor:pointer;transition:width .2s ease,background .2s ease}
 .project-carousel-dots button.is-active{width:23px;background:var(--accent)}

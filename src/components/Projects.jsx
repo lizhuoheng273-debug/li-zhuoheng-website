@@ -482,11 +482,11 @@ export default function Projects({ lang }) {
           ))}
         </div>
         <div className="project-carousel-controls" aria-label="作品轮播控制">
-          <button type="button" onClick={() => goToProject(activeIndex - 1)} disabled={activeIndex === 0} aria-label={isEn ? 'Previous project' : '查看上一个作品'}>←</button>
+          <button className="carousel-nav-button" type="button" onClick={() => goToProject(activeIndex - 1)} disabled={activeIndex === 0} aria-label={isEn ? 'Previous project' : '查看上一个作品'}><span aria-hidden="true">←</span><em>{isEn ? 'Previous' : '上一张'}</em></button>
           <div className="project-carousel-dots" aria-label={isEn ? `Project ${activeIndex + 1} of ${entries.length}` : `当前第 ${activeIndex + 1} 个作品，共 ${entries.length} 个`}>
             {entries.map((project, index) => <button type="button" key={project.title} className={index === activeIndex ? 'is-active' : ''} onClick={() => goToProject(index)} aria-label={isEn ? `View project: ${project.title}` : `查看作品：${project.title}`} aria-current={index === activeIndex ? 'true' : undefined} />)}
           </div>
-          <button type="button" onClick={() => goToProject(activeIndex + 1)} disabled={activeIndex === entries.length - 1} aria-label={isEn ? 'Next project' : '查看下一个作品'}>→</button>
+          <button className="carousel-nav-button" type="button" onClick={() => goToProject(activeIndex + 1)} disabled={activeIndex === entries.length - 1} aria-label={isEn ? 'Next project' : '查看下一个作品'}><em>{isEn ? 'Next' : '下一张'}</em><span aria-hidden="true">→</span></button>
         </div>
       </div>
       {selectedProject && <ProjectDetail project={selectedProject} lang={lang} onClose={() => setSelectedProject(null)} />}
