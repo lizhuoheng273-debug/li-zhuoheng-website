@@ -309,7 +309,7 @@ function ProjectDetail({ project, onClose, lang }) {
   const detail = lang === 'en' ? projectDetailEn[project.detailId] : projectDetails[project.detailId]
   useEffect(() => {
     let active = true
-    fetch(`${assetBase}assets/projects/${project.detailId}/README.md`).then((response) => response.ok ? response.text() : Promise.reject()).then((text) => { if (active) setMarkdown(text) }).catch(() => { if (active) setMarkdown(lang === 'en' ? 'Project details are temporarily unavailable.' : '项目介绍暂时无法读取。') })
+    fetch(`${assetBase}assets/projects/${project.detailId}/README.md?v=20260824`, { cache: 'no-store' }).then((response) => response.ok ? response.text() : Promise.reject()).then((text) => { if (active) setMarkdown(text) }).catch(() => { if (active) setMarkdown(lang === 'en' ? 'Project details are temporarily unavailable.' : '项目介绍暂时无法读取。') })
     return () => { active = false }
   }, [project.detailId])
   useEffect(() => {
