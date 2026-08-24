@@ -350,27 +350,20 @@ export default function Projects({ lang }) {
     setActiveIndex(nextIndex)
   }
 
-  useEffect(() => {
-    const slider = sliderRef.current
-    if (!slider) return undefined
+  const handleCarouselWheel = (event) => {
+    if (wheelLocked.current) return
+    const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
+    if (Math.abs(delta) < 8) return
 
-    const onWheel = (event) => {
-      if (!slider.contains(event.target) || wheelLocked.current) return
-      const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
-      if (Math.abs(delta) < 8) return
+    const nextIndex = Math.max(0, Math.min(entries.length - 1, activeIndex + (delta > 0 ? 1 : -1)))
+    // At either end, let the page continue its normal vertical scroll.
+    if (nextIndex === activeIndex) return
 
-      const nextIndex = Math.max(0, Math.min(entries.length - 1, activeIndex + (delta > 0 ? 1 : -1)))
-      // 在首尾保留页面纵向滚动，避免轮播把用户困住。
-      if (nextIndex === activeIndex) return
-      event.preventDefault()
-      wheelLocked.current = true
-      goToProject(nextIndex)
-      window.setTimeout(() => { wheelLocked.current = false }, 420)
-    }
-
-    window.addEventListener('wheel', onWheel, { passive: false, capture: true })
-    return () => window.removeEventListener('wheel', onWheel, { capture: true })
-  }, [activeIndex])
+    event.preventDefault()
+    wheelLocked.current = true
+    goToProject(nextIndex)
+    window.setTimeout(() => { wheelLocked.current = false }, 420)
+  }
 
   useEffect(() => {
     const slider = sliderRef.current
@@ -417,7 +410,7 @@ export default function Projects({ lang }) {
         <div className="eyebrow">
           <span className="idx">03</span>PROJECTS{isEn ? '' : ' · vibe coding作品集'}
         </div>
-        <div className="proj-slider" ref={sliderRef} tabIndex="0" aria-label={isEn ? 'Project carousel: use the mouse wheel, arrow keys, or controls below to change cards' : '作品轮播：使用鼠标滚轮、左右方向键或下方按钮切换'} onKeyDown={(event) => { if (event.key === 'ArrowRight') { event.preventDefault(); goToProject(activeIndex + 1) } if (event.key === 'ArrowLeft') { event.preventDefault(); goToProject(activeIndex - 1) } }}>
+        <div className="proj-slider" ref={sliderRef} tabIndex="0" aria-label={isEn ? 'Project carousel: use the mouse wheel, arrow keys, or controls below to change cards' : '作品轮播：使用鼠标滚轮、左右方向键或下方按钮切换'} onWheel={handleCarouselWheel} onKeyDown={(event) => { if (event.key === 'ArrowRight') { event.preventDefault(); goToProject(activeIndex + 1) } if (event.key === 'ArrowLeft') { event.preventDefault(); goToProject(activeIndex - 1) } }}>
           {entries.map((p, i) => (
             <div
               className={`proj-card ${i === activeIndex ? 'active' : ''} ${p.detailId ? 'has-detail' : ''}`}
