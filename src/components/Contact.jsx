@@ -68,7 +68,7 @@ export default function Contact({ lang }) {
             </div>
           </div>
           <div className="contact-copy">
-            <h2>{isEn ? 'Let’s create the next chapter together.' : '下一段经历我们一起来创造'}</h2>
+            <h2>{isEn ? <>The next chapter<br />Let’s create it together.</> : <>下一段经历<br />让我们一起来创造</>}</h2>
             <div className="contact-keywords">FinTech · AI Product · Investment Analysis</div>
             <div className="contact-focus">
               <span>{isEn ? 'AI Product' : 'AI 产品'}</span><span>{isEn ? 'AI Agents' : '智能体'}</span><span>{isEn ? 'FinTech Analysis' : '金融科技商分'}</span><span>{isEn ? 'Internships & Collaboration' : '实习与合作机会'}</span>
