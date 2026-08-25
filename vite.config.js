@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  base: '/li-zhuoheng-website/',
+  // Relative asset URLs keep both the current project URL and the future custom domain working.
+  base: './',
   plugins: [react()],
   resolve: {
     alias: {
