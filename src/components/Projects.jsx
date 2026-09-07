@@ -124,6 +124,10 @@ const projectDetailEn = {
 
 Research signals scatter across news, quotes, and reports, and AI usually stays as one-off Q&A instead of a daily workflow. Built on the open-source Vibe-Research dashboard, this project rebuilt the pipeline around **news → review → stocks → AI sessions**, adding branding, a permission system, and cloud deployment to make AI a site-wide capability.
 
+**Product home** (after signing in, users land on the debate workspace: the left sidebar holds the two-level AI and Finance navigation, the right side is the active feature view)
+
+![Product home](img-hero.png)
+
 ## Core capabilities
 
 | Capability | Description |
@@ -162,7 +166,7 @@ Research signals scatter across news, quotes, and reports, and AI usually stays 
 
 https://research.vincentli-website.com
 
-## Interface
+## Interface screenshots
 
 **Daily market review** (AI closing summary, indices, and market structure with transparent data freshness)
 
@@ -380,9 +384,10 @@ function MarkdownArticle({ source, projectId, projectTitle, onImageClick, lang }
     if (inGallerySection) return null
     if (projectId === 'course-planner' && line.includes('course-timetable-builder.zip')) return <a className="skill-download" key={index} href={`${assetBase}assets/projects/course-planner/course-timetable-builder.zip`} download>{lang === 'en' ? 'Download Skill' : '下载 Skill'}</a>
     const imageMatch = line.match(/\]\((?:.*\/)?(img-[^)]+\.png)\)/)
-    if (imageMatch && projectId === 'tancan-agent') {
+    if (imageMatch) {
       const image = imageMatch[1]
-      const detailImages = lang === 'en' ? projectDetailEn[projectId].images : projectDetails[projectId].images
+      const detail = lang === 'en' ? projectDetailEn[projectId] : projectDetails[projectId]
+      const detailImages = detail?.images || []
       const [, title = lang === 'en' ? 'Project interface' : '项目界面截图'] = detailImages.find(([file]) => file === image) || []
       return <figure className="project-inline-image" key={index}><button className="project-gallery-image" type="button" onClick={() => onImageClick({ image, title })} aria-label={lang === 'en' ? `Enlarge: ${title}` : `放大查看：${title}`}><img src={`${assetBase}assets/projects/${projectId}/${image}`} alt={`${projectTitle}：${title}`} /></button></figure>
     }
