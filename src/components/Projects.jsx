@@ -398,6 +398,7 @@ function MarkdownArticle({ source, projectId, projectTitle, onImageClick, lang }
     if (line.startsWith('- ')) return <p className="project-md-bullet" key={index}><span>•</span><InlineMarkdown text={line.slice(2)} /></p>
     if (line.startsWith('|')) return <p className="project-md-table" key={index}>{line.split('|').filter(Boolean).join('  ·  ')}</p>
     if (line.startsWith('> ')) return <blockquote key={index}><InlineMarkdown text={line.slice(2)} /></blockquote>
+    if (/^https?:\/\/\S+$/.test(line.trim())) return <p key={index}><a className="project-md-link" href={line.trim()} target="_blank" rel="noreferrer">{line.trim()}</a></p>
     return line.trim() ? <p key={index}><InlineMarkdown text={line} /></p> : null
   })}</div>
 }
