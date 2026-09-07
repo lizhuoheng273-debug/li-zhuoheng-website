@@ -64,7 +64,30 @@ function TimetableDemo({ isEn }) {
   )
 }
 
+function FtResearchDemo({ isEn }) {
+  return (
+    <div className="ft-demo" aria-label={isEn ? 'FT-Research: AI hot topics, daily market review, and AI session workflow' : 'FT-Research 从 AI 热点资讯、每日复盘到 AI 会话的工作流演示'}>
+      <div className="ft-demo-top">
+        <span className="ft-demo-live"><i /> {isEn ? 'AI HOT · TOP 3' : 'AI HOT · 热点榜'}</span>
+        <span>{isEn ? 'A-share · US · HK' : 'A股 / 美股 / 港股'}</span>
+      </div>
+      <div className="ft-demo-list">
+        <div className="ft-demo-row"><em>1</em><div><b>{isEn ? 'Frontier model release tops today ranking' : '前沿大模型发布，登顶今日热点榜'}</b><small>AI HOT · RSS · {isEn ? '9 sources' : '9 源'}</small></div></div>
+        <div className="ft-demo-row"><em>2</em><div><b>{isEn ? 'Evidence-first news: every point cites its source' : '证据优先：财经新闻要点可回溯来源'}</b><small>{isEn ? 'News · RSS feeds' : '资讯 · RSS 订阅'}</small></div></div>
+        <div className="ft-demo-row"><em>3</em><div><b>{isEn ? 'Post-close brief: funds rotate into tech' : '盘后简报：板块资金回流科技'}</b><small>{isEn ? 'Scheduled · 08:00 daily' : '定时 · 每日 08:00'}</small></div></div>
+      </div>
+      <div className="ft-demo-ai"><b>✦ {isEn ? 'AI market review' : 'AI 市场复盘'}</b>{isEn ? 'Grounded in today’s page context' : '基于今日页面上下文'}<span>{isEn ? 'Review → Ask → Session' : '复盘 → 提问 → 会话'}</span></div>
+    </div>
+  )
+}
+
 const projectDetails = {
+  'ft-research': { images: [
+    ['img-review.png', '每日市场复盘', 'AI 收盘综述、大盘指数与市场结构一屏看全，数据更新时间与状态透明。'],
+    ['img-news.png', '金融市场资讯', '全球财经热点榜按重要性与多平台来源组织，要点可回溯原始出处。'],
+    ['img-ai-news.png', 'AI 热点资讯', '热点榜 Top 5 与可排序/置顶/隐藏的 RSS 订阅流，来源刷新状态一目了然。'],
+    ['img-stock.png', '个股研究与 AI 入口', '个股行情、估值与财务面板，一键将当前股票上下文带入 AI 会话。'],
+  ] },
   'job-workbench': { images: [
     ['img-tab-all.png', '全部岗位', '评分、等级与截止日一目了然。'],
     ['img-tab-detail.png', '岗位详情', '点击岗位后，在右侧抽屉集中查看评分、状态、JD 与投递链接。'],
@@ -92,6 +115,85 @@ const projectDetails = {
 }
 
 const projectDetailEn = {
+  'ft-research': {
+    source: `# FT-Research (Finance × AI Personal Research Workbench)
+
+> A research workbench unifying AI financial news and AI conversation: hot-topic tracking, daily market review, stock research, and AI analysis that consolidates scattered information into verifiable research threads. AI works on real data and page context; the product never gives trading advice.
+
+## Project background
+
+Research signals scatter across news, quotes, and reports, and AI usually stays as one-off Q&A instead of a daily workflow. This project rebuilt the pipeline around **news → review → stocks → AI sessions**, adding branding, a permission system, and cloud deployment to make AI a site-wide capability.
+
+**Landing page hero** (public entry with brand intro and a product preview; visitors can enter directly via the guest button)
+
+![Landing page hero](img-hero.png)
+
+## Core capabilities
+
+| Capability | Description |
+|---|---|
+| Daily market review | Consolidates indices, sentiment, sector fund flows, watchlist stocks, and global markets with data freshness and error states; a scheduled post-close job idempotently generates a structured market brief that AI can further interpret. |
+| Financial news & hot topics | Aggregates financial news, public RSS feeds, and AI hot topics with an evidence-first design where every point traces back to its source; supports hot-topic ranking, subscription management, and refresh status. |
+| Stock research | Name/code search (unified normalization and debouncing, shared entry point); stock pages integrate quotes, financials, valuation, and news panels, carrying context directly into AI conversation. |
+| AI research workbench | Enter with context from review, news, index, or stock pages; GLM is server-hosted (the key never leaves the backend) with NDJSON streaming, interruption recovery, and persistent session history. |
+
+## Technical approach
+
+\`\`\`
+[Public sources: quotes · financial RSS · AI HOT]
+        │
+        ▼
+[FastAPI backend] ── evidence-first aggregation · per-source refresh · ETag cache/fallback
+        │
+        ├─> [Daily review snapshot + scheduled post-close brief]
+        │
+        └─> [GLM-5.3-Flash · server-hosted] ──NDJSON streaming──> [AI session workbench]
+                                                            [SQLite session persistence]
+        │                                                            │
+        ├─ Owner: full history + data boundaries
+        └─ Guest: in-memory tokens + budget/tool limits
+\`\`\`
+
+- **Frontend**: React 19 + TypeScript + Vite, reorganized into AI and Finance sections, with a public landing page and full chart history.
+- **AI pipeline**: the browser only sends messages and page context; streams can be resumed, and research frameworks route automatically by question type.
+- **News pipeline**: evidence-chain aggregation sorted by publish time; RSS reads with safety bounds; the AI HOT proxy uses ETag/304 caching with stale-flagged fallback.
+- **Permissions**: multi-dimensional limits on identity, IP, site-wide, and input length; background AI tasks never auto-rerun while offline.
+- **Delivery**: production deployment on Tencent Cloud Lighthouse with Docker, preflight, and backup scripts; ~90 tests covering streaming, caching, permissions, and search.
+
+## Live site
+
+https://research.vincentli-website.com
+
+## Interface screenshots
+
+**Daily market review** (AI closing summary, indices, and market structure with transparent data freshness)
+
+![Daily market review](img-review.png)
+
+**Financial news** (global hot topics ranked by importance with multi-platform sources)
+
+![Financial news](img-news.png)
+
+**AI hot topics** (Top-5 ranking and RSS subscription streams with sorting, pinning, and hiding, plus per-source refresh status)
+
+![AI hot topics](img-ai-news.png)
+
+**Stock research** (quotes, valuation, and financial panels with one-click AI session entry)
+
+![Stock research](img-stock.png)
+
+## Project highlights (interview talking points)
+
+1. **AI grounded in on-page context everywhere**: from news, review, indices, or any stock page, the current context carries into the AI session, so answers build on real page data instead of generic Q&A; streaming responses can be interrupted and resumed, and session history persists for later visits.
+2. **Automated research routine**: AI daily/weekly/monthly reports are generated on schedule at 08:00, structured market briefs are produced automatically after each close, and hot topics plus financial news aggregate and refresh on their own — manual information gathering becomes a fixed automated workflow.
+3. **A genuinely deployed system**: owner/guest role isolation (guests get their own budget and tool permissions; tokens vanish on refresh), API keys stay server-side, production deployment on Tencent Cloud with Docker, and ~90 frontend/backend tests covering critical paths.`,
+    images: [
+      ['img-review.png', 'Daily market review', 'AI closing summary, indices, and market structure on one screen with transparent data freshness.'],
+      ['img-news.png', 'Financial news', 'Global hot topics organized by importance and multi-platform sources, with traceable points.'],
+      ['img-ai-news.png', 'AI hot topics', 'A Top-5 hot-topic ranking and RSS subscription streams with sorting, pinning, hiding, and per-source refresh status.'],
+      ['img-stock.png', 'Stock research & AI entry', 'Quote, valuation, and financial panels with one-click handoff of stock context into AI sessions.'],
+    ],
+  },
   'job-workbench': {
     source: `# Job Search Workbench
 
@@ -145,7 +247,7 @@ Executive-facing materials for roundtables, regulatory visits, and media intervi
 | Blind evaluation | Two AI evaluators independently score five dimensions—theme, logic, evidence, information gain, and audience awareness—with third-model arbitration when needed. |
 | Style refinement | Uses templates for roundtables, speeches, interviews, regulatory visits, partner visits, and internal sharing; custom style profiles are also supported. |
 | Structured knowledge base | 1,907 structured chunks with 13-dimensional metadata and a three-level knowledge graph support filtering and related analysis. |
-| Cross-platform delivery | Company employees can call the same capability across Web and MCP. |
+| Cross-platform delivery | The same capability is available through the Web app and MCP for tools such as Claude Code and WorkBuddy. |
 
 ## Main interface
 
@@ -286,9 +388,10 @@ function MarkdownArticle({ source, projectId, projectTitle, onImageClick, lang }
     if (inGallerySection) return null
     if (projectId === 'course-planner' && line.includes('course-timetable-builder.zip')) return <a className="skill-download" key={index} href={`${assetBase}assets/projects/course-planner/course-timetable-builder.zip`} download>{lang === 'en' ? 'Download Skill' : '下载 Skill'}</a>
     const imageMatch = line.match(/\]\((?:.*\/)?(img-[^)]+\.png)\)/)
-    if (imageMatch && projectId === 'tancan-agent') {
+    if (imageMatch) {
       const image = imageMatch[1]
-      const detailImages = lang === 'en' ? projectDetailEn[projectId].images : projectDetails[projectId].images
+      const detail = lang === 'en' ? projectDetailEn[projectId] : projectDetails[projectId]
+      const detailImages = detail?.images || []
       const [, title = lang === 'en' ? 'Project interface' : '项目界面截图'] = detailImages.find(([file]) => file === image) || []
       return <figure className="project-inline-image" key={index}><button className="project-gallery-image" type="button" onClick={() => onImageClick({ image, title })} aria-label={lang === 'en' ? `Enlarge: ${title}` : `放大查看：${title}`}><img src={`${assetBase}assets/projects/${projectId}/${image}`} alt={`${projectTitle}：${title}`} /></button></figure>
     }
@@ -309,7 +412,7 @@ function ProjectDetail({ project, onClose, lang }) {
   const detail = lang === 'en' ? projectDetailEn[project.detailId] : projectDetails[project.detailId]
   useEffect(() => {
     let active = true
-    fetch(`${assetBase}assets/projects/${project.detailId}/README.md?v=20260824`, { cache: 'no-store' }).then((response) => response.ok ? response.text() : Promise.reject()).then((text) => { if (active) setMarkdown(text) }).catch(() => { if (active) setMarkdown(lang === 'en' ? 'Project details are temporarily unavailable.' : '项目介绍暂时无法读取。') })
+    fetch(`${assetBase}assets/projects/${project.detailId}/README.md`).then((response) => response.ok ? response.text() : Promise.reject()).then((text) => { if (active) setMarkdown(text) }).catch(() => { if (active) setMarkdown(lang === 'en' ? 'Project details are temporarily unavailable.' : '项目介绍暂时无法读取。') })
     return () => { active = false }
   }, [project.detailId])
   useEffect(() => {
@@ -346,11 +449,6 @@ export default function Projects({ lang }) {
   const sliderRef = useRef(null)
   const cardRefs = useRef([])
   const wheelLocked = useRef(false)
-  const programmaticScroll = useRef(false)
-  const programmaticTarget = useRef(null)
-  const scrollReleaseTimer = useRef(null)
-  const dragState = useRef(null)
-  const suppressCardClickUntil = useRef(0)
   const [selectedProject, setSelectedProject] = useState(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const isEn = lang === 'en'
@@ -358,43 +456,7 @@ export default function Projects({ lang }) {
 
   const goToProject = (index) => {
     const nextIndex = Math.max(0, Math.min(entries.length - 1, index))
-    if (nextIndex === activeIndex) return
-    programmaticScroll.current = true
     setActiveIndex(nextIndex)
-  }
-
-  const handlePointerDown = (event) => {
-    if (event.pointerType !== 'mouse' || event.button !== 0) return
-    const slider = sliderRef.current
-    if (!slider) return
-    programmaticScroll.current = false
-    if (scrollReleaseTimer.current) window.clearTimeout(scrollReleaseTimer.current)
-    dragState.current = { pointerId: event.pointerId, startX: event.clientX, startScrollLeft: slider.scrollLeft, moved: false, captured: false }
-  }
-
-  const handlePointerMove = (event) => {
-    const slider = sliderRef.current
-    const drag = dragState.current
-    if (!slider || !drag || drag.pointerId !== event.pointerId) return
-    const distance = event.clientX - drag.startX
-    if (Math.abs(distance) > 4 && !drag.moved) {
-      drag.moved = true
-      // Capturing from pointer-down makes every click land on the slider and
-      // blocks card/button actions. Only capture once this is a real drag.
-      slider.setPointerCapture?.(event.pointerId)
-      drag.captured = true
-    }
-    if (!drag.moved) return
-    slider.scrollLeft = drag.startScrollLeft - distance
-  }
-
-  const handlePointerEnd = (event) => {
-    const slider = sliderRef.current
-    const drag = dragState.current
-    if (!slider || !drag || drag.pointerId !== event.pointerId) return
-    if (drag.moved) suppressCardClickUntil.current = Date.now() + 180
-    dragState.current = null
-    if (drag.captured) slider.releasePointerCapture?.(event.pointerId)
   }
 
   useEffect(() => {
@@ -402,87 +464,29 @@ export default function Projects({ lang }) {
     if (!slider) return undefined
 
     const onWheel = (event) => {
-      if (wheelLocked.current) return
+      if (!slider.contains(event.target) || wheelLocked.current) return
       const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
-      // The in-app browser can emit a very small wheel delta (around 1px).
-      // Treat that as a deliberate wheel step; the lock below still keeps one
-      // physical wheel gesture to a single card transition.
-      if (Math.abs(delta) < 0.5) return
+      if (Math.abs(delta) < 8) return
 
       const nextIndex = Math.max(0, Math.min(entries.length - 1, activeIndex + (delta > 0 ? 1 : -1)))
-      // At either end, let the page continue its normal vertical scroll.
+      // 在首尾保留页面纵向滚动，避免轮播把用户困住。
       if (nextIndex === activeIndex) return
-
       event.preventDefault()
       wheelLocked.current = true
       goToProject(nextIndex)
       window.setTimeout(() => { wheelLocked.current = false }, 420)
     }
 
-    // A direct non-passive listener is required for desktop browsers to
-    // reliably prevent page scrolling while a card transition is happening.
-    slider.addEventListener('wheel', onWheel, { passive: false })
-    return () => slider.removeEventListener('wheel', onWheel)
-  }, [activeIndex, entries.length])
+    window.addEventListener('wheel', onWheel, { passive: false, capture: true })
+    return () => window.removeEventListener('wheel', onWheel, { capture: true })
+  }, [activeIndex])
 
   useEffect(() => {
     const slider = sliderRef.current
     const card = cardRefs.current[activeIndex]
     if (!slider || !card) return
-    const targetLeft = card.offsetLeft - (slider.clientWidth - card.clientWidth) / 2
-    if (Math.abs(slider.scrollLeft - targetLeft) < 1) {
-      programmaticScroll.current = false
-      return
-    }
-    programmaticTarget.current = targetLeft
-    slider.scrollTo({ left: targetLeft, behavior: 'smooth' })
-    if (scrollReleaseTimer.current) window.clearTimeout(scrollReleaseTimer.current)
-    scrollReleaseTimer.current = window.setTimeout(() => {
-      programmaticScroll.current = false
-    }, 700)
+    slider.scrollTo({ left: card.offsetLeft - (slider.clientWidth - card.clientWidth) / 2, behavior: 'smooth' })
   }, [activeIndex])
-
-  useEffect(() => {
-    const slider = sliderRef.current
-    if (!slider) return undefined
-    let frame = null
-
-    const onScroll = () => {
-      if (frame) return
-      frame = window.requestAnimationFrame(() => {
-        frame = null
-        // A button, key or wheel navigation animates scrollLeft to the next
-        // card. Do not let intermediate positions reset activeIndex before
-        // that animation arrives at its intended card.
-        if (programmaticScroll.current) {
-          if (programmaticTarget.current != null && Math.abs(slider.scrollLeft - programmaticTarget.current) < 2) {
-            programmaticScroll.current = false
-            if (scrollReleaseTimer.current) window.clearTimeout(scrollReleaseTimer.current)
-          }
-          return
-        }
-        const viewportCenter = slider.scrollLeft + slider.clientWidth / 2
-        let nextIndex = 0
-        let smallestDistance = Infinity
-        cardRefs.current.forEach((card, index) => {
-          if (!card) return
-          const cardCenter = card.offsetLeft + card.clientWidth / 2
-          const distance = Math.abs(cardCenter - viewportCenter)
-          if (distance < smallestDistance) {
-            smallestDistance = distance
-            nextIndex = index
-          }
-        })
-        setActiveIndex((current) => current === nextIndex ? current : nextIndex)
-      })
-    }
-
-    slider.addEventListener('scroll', onScroll, { passive: true })
-    return () => {
-      slider.removeEventListener('scroll', onScroll)
-      if (frame) window.cancelAnimationFrame(frame)
-    }
-  }, [entries.length])
 
   return (
     <section id="projects" className={`screen light ${inView ? 'inview' : ''}`} ref={ref}>
@@ -490,7 +494,7 @@ export default function Projects({ lang }) {
         <div className="eyebrow">
           <span className="idx">03</span>PROJECTS{isEn ? '' : ' · vibe coding作品集'}
         </div>
-        <div className="proj-slider" ref={sliderRef} tabIndex="0" aria-label={isEn ? 'Project carousel: use the mouse wheel, drag cards, arrow keys, or controls below to change cards' : '作品轮播：使用鼠标滚轮、拖拽卡片、左右方向键或下方按钮切换'} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerEnd} onPointerCancel={handlePointerEnd} onKeyDown={(event) => { if (event.key === 'ArrowRight') { event.preventDefault(); goToProject(activeIndex + 1) } if (event.key === 'ArrowLeft') { event.preventDefault(); goToProject(activeIndex - 1) } }}>
+        <div className="proj-slider" ref={sliderRef} tabIndex="0" aria-label={isEn ? 'Project carousel: use the mouse wheel, arrow keys, or controls below to change cards' : '作品轮播：使用鼠标滚轮、左右方向键或下方按钮切换'} onKeyDown={(event) => { if (event.key === 'ArrowRight') { event.preventDefault(); goToProject(activeIndex + 1) } if (event.key === 'ArrowLeft') { event.preventDefault(); goToProject(activeIndex - 1) } }}>
           {entries.map((p, i) => (
             <div
               className={`proj-card ${i === activeIndex ? 'active' : ''} ${p.detailId ? 'has-detail' : ''}`}
@@ -498,11 +502,11 @@ export default function Projects({ lang }) {
               ref={(el) => (cardRefs.current[i] = el)}
               role={p.detailId ? 'button' : undefined}
               tabIndex={p.detailId ? 0 : undefined}
-              onClick={p.detailId ? () => { if (Date.now() >= suppressCardClickUntil.current) setSelectedProject(p) } : undefined}
+              onClick={p.detailId ? () => setSelectedProject(p) : undefined}
               onKeyDown={p.detailId ? (event) => { if (event.key === 'Enter' || event.key === ' ') setSelectedProject(p) } : undefined}
             >
-              <div className={`proj-ph ${p.detailId === 'job-workbench' ? 'proj-ph-workbench' : ''} ${p.detailId === 'tancan-agent' ? 'proj-ph-agent' : ''} ${p.detailId === 'course-planner' ? 'proj-ph-timetable' : ''}`}>
-                {p.detailId === 'job-workbench' ? <JobWorkbenchDemo isEn={isEn} /> : p.detailId === 'tancan-agent' ? <TancanAgentDemo isEn={isEn} /> : p.detailId === 'course-planner' ? <TimetableDemo isEn={isEn} /> : <div className="ic">{p.icon}</div>}
+              <div className={`proj-ph ${p.detailId === 'ft-research' ? 'proj-ph-ft' : ''} ${p.detailId === 'job-workbench' ? 'proj-ph-workbench' : ''} ${p.detailId === 'tancan-agent' ? 'proj-ph-agent' : ''} ${p.detailId === 'course-planner' ? 'proj-ph-timetable' : ''}`}>
+                {p.detailId === 'ft-research' ? <FtResearchDemo isEn={isEn} /> : p.detailId === 'job-workbench' ? <JobWorkbenchDemo isEn={isEn} /> : p.detailId === 'tancan-agent' ? <TancanAgentDemo isEn={isEn} /> : p.detailId === 'course-planner' ? <TimetableDemo isEn={isEn} /> : <div className="ic">{p.icon}</div>}
               </div>
               <div className="proj-body">
                 <h3>{p.title}</h3>
@@ -518,11 +522,11 @@ export default function Projects({ lang }) {
           ))}
         </div>
         <div className="project-carousel-controls" aria-label="作品轮播控制">
-          <button className="carousel-nav-button" type="button" onClick={() => goToProject(activeIndex - 1)} disabled={activeIndex === 0} aria-label={isEn ? 'Previous project' : '查看上一个作品'}><span aria-hidden="true">←</span><em>{isEn ? 'Previous' : '上一张'}</em></button>
+          <button type="button" onClick={() => goToProject(activeIndex - 1)} disabled={activeIndex === 0} aria-label={isEn ? 'Previous project' : '查看上一个作品'}>←</button>
           <div className="project-carousel-dots" aria-label={isEn ? `Project ${activeIndex + 1} of ${entries.length}` : `当前第 ${activeIndex + 1} 个作品，共 ${entries.length} 个`}>
             {entries.map((project, index) => <button type="button" key={project.title} className={index === activeIndex ? 'is-active' : ''} onClick={() => goToProject(index)} aria-label={isEn ? `View project: ${project.title}` : `查看作品：${project.title}`} aria-current={index === activeIndex ? 'true' : undefined} />)}
           </div>
-          <button className="carousel-nav-button" type="button" onClick={() => goToProject(activeIndex + 1)} disabled={activeIndex === entries.length - 1} aria-label={isEn ? 'Next project' : '查看下一个作品'}><em>{isEn ? 'Next' : '下一张'}</em><span aria-hidden="true">→</span></button>
+          <button type="button" onClick={() => goToProject(activeIndex + 1)} disabled={activeIndex === entries.length - 1} aria-label={isEn ? 'Next project' : '查看下一个作品'}>→</button>
         </div>
       </div>
       {selectedProject && <ProjectDetail project={selectedProject} lang={lang} onClose={() => setSelectedProject(null)} />}

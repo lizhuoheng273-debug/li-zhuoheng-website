@@ -136,6 +136,16 @@ export const experienceEn = [
 
 export const projects = [
   {
+    icon: '❖',
+    meta: '个人项目 · 2026',
+    title: 'FT-Research',
+    detailId: 'ft-research',
+    desc: '整合 AI 金融资讯与 AI 对话的研究工作台，支持热点资讯追踪、每日市场复盘、个股研究与 AI 分析，帮助把分散信息收拢为可继续验证的研究线索。',
+    tags: ['FinTech', 'GLM', '流式会话', '权限隔离', '云端部署'],
+    cta: 'https://research.vincentli-website.com',
+    ctaText: '打开作品链接',
+  },
+  {
     icon: '◈',
     meta: '个人项目 · 2024 – 2025',
     title: '谈参 Agent · avatar-chat',
@@ -168,6 +178,7 @@ export const projects = [
 ]
 
 export const projectsEn = [
+  { icon: '❖', title: 'FT-Research', detailId: 'ft-research', desc: 'A research workbench unifying AI financial news and AI conversation: hot-topic tracking, daily market review, stock research, and AI analysis that consolidates scattered information into verifiable research threads.', tags: ['FinTech', 'GLM', 'Streaming', 'Auth', 'Deployment'], cta: 'https://research.vincentli-website.com', ctaText: 'Open project' },
   { icon: '◈', title: 'Negotiation Agent · avatar-chat', detailId: 'tancan-agent', desc: 'An AI copilot for executive negotiation: it independently decomposes requirements, retrieves information, drafts content, conducts dual-AI five-dimensional evaluation, and refines style. Company employees can call it across Web and MCP.', tags: ['React', 'Flask', 'Agent Loop', 'GLM', 'MCP'], cta: '#', ctaText: 'Open project' },
   { icon: '▦', title: 'Job Search Workbench', detailId: 'job-workbench', desc: 'An AI-powered job-search management system: scans 20+ official career sites daily, scores opportunities against a candidate profile, admits roles scoring 70 or above, and unifies tracking for saved roles, applications, and interviews.', tags: ['AI web search', 'SQLite', 'Smart scoring', 'Job tracking', 'Auto publish'], cta: '#', ctaText: 'Open project' },
   { icon: '◐', title: 'HKU MFFinTech Interactive Timetable', detailId: 'course-planner', desc: 'An interactive planner built on real course dates: visualizes 42 course sections across 402 teaching days, detects time conflicts, and supports weekly views, recommended plans, and local saving.', tags: ['HTML', 'JavaScript', 'Conflict detection', 'Weekly view', 'Plan reuse'], cta: '#', ctaText: 'Open project' },
