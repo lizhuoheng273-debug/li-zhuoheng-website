@@ -124,9 +124,9 @@ const projectDetailEn = {
 
 Research signals scatter across news, quotes, and reports, and AI usually stays as one-off Q&A instead of a daily workflow. Built on the open-source Vibe-Research dashboard, this project rebuilt the pipeline around **news → review → stocks → AI sessions**, adding branding, a permission system, and cloud deployment to make AI a site-wide capability.
 
-**Product home** (after signing in, users land on the debate workspace: the left sidebar holds the two-level AI and Finance navigation, the right side is the active feature view)
+**Landing page hero** (public entry with brand intro and a product preview; visitors can enter directly via the guest button)
 
-![Product home](img-hero.png)
+![Landing page hero](img-hero.png)
 
 ## Core capabilities
 
