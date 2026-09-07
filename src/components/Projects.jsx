@@ -136,8 +136,6 @@ Research signals scatter across news, quotes, and reports, and AI usually stays 
 | Financial news & hot topics | Aggregates financial news, public RSS feeds, and AI hot topics with an evidence-first design where every point traces back to its source; supports hot-topic ranking, subscription management, and refresh status. |
 | Stock research | Name/code search (unified normalization and debouncing, shared entry point); stock pages integrate quotes, financials, valuation, and news panels, carrying context directly into AI conversation. |
 | AI research workbench | Enter with context from review, news, index, or stock pages; GLM is server-hosted (the key never leaves the backend) with NDJSON streaming, interruption recovery, and persistent session history. |
-| Owner & guest boundaries | Owner/guest dual roles: admin passwords stored as hashes, guest tokens kept in memory only; model calls are limited by identity, IP, and input length with isolated data. |
-| Deployment & quality | Tencent Cloud Lighthouse deployment (ops/backup/preflight scripts) plus Docker/compose; about 90 frontend and backend tests added. |
 
 ## Technical approach
 
