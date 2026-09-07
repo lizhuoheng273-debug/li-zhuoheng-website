@@ -64,7 +64,27 @@ function TimetableDemo({ isEn }) {
   )
 }
 
+function FtResearchDemo({ isEn }) {
+  return (
+    <div className="ft-demo" aria-label={isEn ? 'FT-Research: AI hot topics, daily market review, and AI session workflow' : 'FT-Research 从 AI 热点资讯、每日复盘到 AI 会话的工作流演示'}>
+      <div className="ft-demo-top">
+        <span className="ft-demo-live"><i /> {isEn ? 'AI HOT · TOP 3' : 'AI HOT · 热点榜'}</span>
+        <span>{isEn ? 'A-share · US · HK' : 'A股 / 美股 / 港股'}</span>
+      </div>
+      <div className="ft-demo-list">
+        <div className="ft-demo-row"><em>1</em><div><b>{isEn ? 'Frontier model release tops today ranking' : '前沿大模型发布，登顶今日热点榜'}</b><small>AI HOT · RSS · {isEn ? '9 sources' : '9 源'}</small></div></div>
+        <div className="ft-demo-row"><em>2</em><div><b>{isEn ? 'Industry signal: GPU spot price stabilizes' : '产业信号：GPU 租金现货企稳'}</b><small>{isEn ? 'Signal · 3 sources' : '信号 · 3 源'}</small></div></div>
+        <div className="ft-demo-row"><em>3</em><div><b>{isEn ? 'Post-close brief: funds rotate into tech' : '盘后简报：板块资金回流科技'}</b><small>{isEn ? 'Scheduled · 08:00 daily' : '定时 · 每日 08:00'}</small></div></div>
+      </div>
+      <div className="ft-demo-ai"><b>✦ {isEn ? 'AI market review' : 'AI 市场复盘'}</b>{isEn ? 'Grounded in today’s page context' : '基于今日页面上下文'}<span>{isEn ? 'Review → Ask → Session' : '复盘 → 提问 → 会话'}</span></div>
+    </div>
+  )
+}
+
 const projectDetails = {
+  'ft-research': { images: [
+    ['img-ai-news.png', 'AI 热点资讯', '热点榜 Top 5 与可排序/置顶/隐藏的 RSS 订阅流，来源刷新状态一目了然。'],
+  ] },
   'job-workbench': { images: [
     ['img-tab-all.png', '全部岗位', '评分、等级与截止日一目了然。'],
     ['img-tab-detail.png', '岗位详情', '点击岗位后，在右侧抽屉集中查看评分、状态、JD 与投递链接。'],
@@ -92,6 +112,68 @@ const projectDetails = {
 }
 
 const projectDetailEn = {
+  'ft-research': {
+    source: `# FT-Research (Finance × AI Personal Research Workbench)
+
+> A research workbench unifying AI financial news and AI conversation: hot-topic tracking, daily market review, stock research, and AI analysis that consolidates scattered information into verifiable research threads. AI works on real data and page context; the product never gives trading advice.
+
+## Project background
+
+Research signals scatter across news, quotes, and reports, and AI usually stays as one-off Q&A instead of a daily workflow. Built on the open-source Vibe-Research dashboard, this project rebuilt the pipeline around **news → review → stocks → AI sessions**, adding branding, a permission system, and cloud deployment to make AI a site-wide capability.
+
+## Core capabilities
+
+| Capability | Description |
+|---|---|
+| Daily market review | Consolidates indices, sentiment, sector fund flows, watchlist stocks, and global markets with data freshness and error states; a scheduled post-close job idempotently generates a structured market brief that AI can further interpret. |
+| Financial news & hot topics | Aggregates financial news, public RSS feeds, and AI hot topics with an evidence-first design where every point traces back to its source; supports hot-topic ranking, subscription management, and refresh status. |
+| Stock research | Name/code search (unified normalization and debouncing, shared entry point); stock pages integrate quotes, financials, valuation, and news panels, carrying context directly into AI conversation. |
+| AI research workbench | Enter with context from review, news, index, or stock pages; GLM is server-hosted (the key never leaves the backend) with NDJSON streaming, interruption recovery, and persistent session history. |
+| Owner & guest boundaries | Owner/guest dual roles: admin passwords stored as hashes, guest tokens kept in memory only; model calls are limited by identity, IP, and input length with isolated data. |
+| Deployment & quality | Tencent Cloud Lighthouse deployment (ops/backup/preflight scripts) plus Docker/compose; about 90 frontend and backend tests added. |
+
+## Technical approach
+
+\`\`\`
+[Public sources: quotes · financial RSS · AI HOT]
+        │
+        ▼
+[FastAPI backend] ── evidence-first aggregation · per-source refresh · ETag cache/fallback
+        │
+        ├─> [Daily review snapshot + scheduled post-close brief]
+        │
+        └─> [GLM-5.3-Flash · server-hosted] ──NDJSON streaming──> [AI session workbench]
+                                                            [SQLite session persistence]
+        │                                                            │
+        ├─ Owner: full history + data boundaries
+        └─ Guest: in-memory tokens + budget/tool limits
+\`\`\`
+
+- **Frontend**: React 19 + TypeScript + Vite, reorganized into AI and Finance sections, with a public landing page and full chart history.
+- **AI pipeline**: the browser only sends messages and page context; streams can be resumed, and research frameworks route automatically by question type.
+- **News pipeline**: evidence-chain aggregation sorted by publish time; RSS reads with safety bounds; the AI HOT proxy uses ETag/304 caching with stale-flagged fallback.
+- **Permissions**: multi-dimensional limits on identity, IP, site-wide, and input length; background AI tasks never auto-rerun while offline.
+- **Delivery**: production deployment on Tencent Cloud Lighthouse with Docker, preflight, and backup scripts; ~90 tests covering streaming, caching, permissions, and search.
+
+## Repository
+
+https://github.com/lizhuoheng273-debug/FT-Research
+
+## Interface
+
+**AI hot topics** (Top-5 ranking and RSS subscription streams with sorting, pinning, and hiding, plus per-source refresh status)
+
+![AI hot topics](img-ai-news.png)
+
+## Project highlights (interview talking points)
+
+1. **Productizing on a mature open-source base**: not feature stacking, but rebuilding the pipeline around news → review → stocks → sessions — the upstream keeps the objective data layer while AI news, scheduled briefs, and the session workbench evolve independently.
+2. **Boundary design**: data boundaries (public sources with status labels), permission boundaries (owner/guest isolation with multi-dimensional limits), and AI boundaries (interpret and organize context, never trading advice) together define product credibility.
+3. **Engineering completeness**: backend-only API keys, resumable streaming, idempotent scheduled jobs, cache failure fallback, Docker-based deployment, and ~90 tests — genuinely production-ready.`,
+    images: [
+      ['img-ai-news.png', 'AI hot topics', 'A Top-5 hot-topic ranking and RSS subscription streams with sorting, pinning, hiding, and per-source refresh status.'],
+    ],
+  },
   'job-workbench': {
     source: `# Job Search Workbench
 
@@ -396,8 +478,8 @@ export default function Projects({ lang }) {
               onClick={p.detailId ? () => setSelectedProject(p) : undefined}
               onKeyDown={p.detailId ? (event) => { if (event.key === 'Enter' || event.key === ' ') setSelectedProject(p) } : undefined}
             >
-              <div className={`proj-ph ${p.detailId === 'job-workbench' ? 'proj-ph-workbench' : ''} ${p.detailId === 'tancan-agent' ? 'proj-ph-agent' : ''} ${p.detailId === 'course-planner' ? 'proj-ph-timetable' : ''}`}>
-                {p.detailId === 'job-workbench' ? <JobWorkbenchDemo isEn={isEn} /> : p.detailId === 'tancan-agent' ? <TancanAgentDemo isEn={isEn} /> : p.detailId === 'course-planner' ? <TimetableDemo isEn={isEn} /> : <div className="ic">{p.icon}</div>}
+              <div className={`proj-ph ${p.detailId === 'ft-research' ? 'proj-ph-ft' : ''} ${p.detailId === 'job-workbench' ? 'proj-ph-workbench' : ''} ${p.detailId === 'tancan-agent' ? 'proj-ph-agent' : ''} ${p.detailId === 'course-planner' ? 'proj-ph-timetable' : ''}`}>
+                {p.detailId === 'ft-research' ? <FtResearchDemo isEn={isEn} /> : p.detailId === 'job-workbench' ? <JobWorkbenchDemo isEn={isEn} /> : p.detailId === 'tancan-agent' ? <TancanAgentDemo isEn={isEn} /> : p.detailId === 'course-planner' ? <TimetableDemo isEn={isEn} /> : <div className="ic">{p.icon}</div>}
               </div>
               <div className="proj-body">
                 <h3>{p.title}</h3>
