@@ -73,7 +73,7 @@ function FtResearchDemo({ isEn }) {
       </div>
       <div className="ft-demo-list">
         <div className="ft-demo-row"><em>1</em><div><b>{isEn ? 'Frontier model release tops today ranking' : '前沿大模型发布，登顶今日热点榜'}</b><small>AI HOT · RSS · {isEn ? '9 sources' : '9 源'}</small></div></div>
-        <div className="ft-demo-row"><em>2</em><div><b>{isEn ? 'Industry signal: GPU spot price stabilizes' : '产业信号：GPU 租金现货企稳'}</b><small>{isEn ? 'Signal · 3 sources' : '信号 · 3 源'}</small></div></div>
+        <div className="ft-demo-row"><em>2</em><div><b>{isEn ? 'Evidence-first news: every point cites its source' : '证据优先：财经新闻要点可回溯来源'}</b><small>{isEn ? 'News · RSS feeds' : '资讯 · RSS 订阅'}</small></div></div>
         <div className="ft-demo-row"><em>3</em><div><b>{isEn ? 'Post-close brief: funds rotate into tech' : '盘后简报：板块资金回流科技'}</b><small>{isEn ? 'Scheduled · 08:00 daily' : '定时 · 每日 08:00'}</small></div></div>
       </div>
       <div className="ft-demo-ai"><b>✦ {isEn ? 'AI market review' : 'AI 市场复盘'}</b>{isEn ? 'Grounded in today’s page context' : '基于今日页面上下文'}<span>{isEn ? 'Review → Ask → Session' : '复盘 → 提问 → 会话'}</span></div>
@@ -83,7 +83,10 @@ function FtResearchDemo({ isEn }) {
 
 const projectDetails = {
   'ft-research': { images: [
+    ['img-review.png', '每日市场复盘', 'AI 收盘综述、大盘指数与市场结构一屏看全，数据更新时间与状态透明。'],
+    ['img-news.png', '金融市场资讯', '全球财经热点榜按重要性与多平台来源组织，要点可回溯原始出处。'],
     ['img-ai-news.png', 'AI 热点资讯', '热点榜 Top 5 与可排序/置顶/隐藏的 RSS 订阅流，来源刷新状态一目了然。'],
+    ['img-stock.png', '个股研究与 AI 入口', '个股行情、估值与财务面板，一键将当前股票上下文带入 AI 会话。'],
   ] },
   'job-workbench': { images: [
     ['img-tab-all.png', '全部岗位', '评分、等级与截止日一目了然。'],
@@ -161,9 +164,21 @@ https://github.com/lizhuoheng273-debug/FT-Research
 
 ## Interface
 
+**Daily market review** (AI closing summary, indices, and market structure with transparent data freshness)
+
+![Daily market review](img-review.png)
+
+**Financial news** (global hot topics ranked by importance with multi-platform sources)
+
+![Financial news](img-news.png)
+
 **AI hot topics** (Top-5 ranking and RSS subscription streams with sorting, pinning, and hiding, plus per-source refresh status)
 
 ![AI hot topics](img-ai-news.png)
+
+**Stock research** (quotes, valuation, and financial panels with one-click AI session entry)
+
+![Stock research](img-stock.png)
 
 ## Project highlights (interview talking points)
 
@@ -171,7 +186,10 @@ https://github.com/lizhuoheng273-debug/FT-Research
 2. **Boundary design**: data boundaries (public sources with status labels), permission boundaries (owner/guest isolation with multi-dimensional limits), and AI boundaries (interpret and organize context, never trading advice) together define product credibility.
 3. **Engineering completeness**: backend-only API keys, resumable streaming, idempotent scheduled jobs, cache failure fallback, Docker-based deployment, and ~90 tests — genuinely production-ready.`,
     images: [
+      ['img-review.png', 'Daily market review', 'AI closing summary, indices, and market structure on one screen with transparent data freshness.'],
+      ['img-news.png', 'Financial news', 'Global hot topics organized by importance and multi-platform sources, with traceable points.'],
       ['img-ai-news.png', 'AI hot topics', 'A Top-5 hot-topic ranking and RSS subscription streams with sorting, pinning, hiding, and per-source refresh status.'],
+      ['img-stock.png', 'Stock research & AI entry', 'Quote, valuation, and financial panels with one-click handoff of stock context into AI sessions.'],
     ],
   },
   'job-workbench': {
