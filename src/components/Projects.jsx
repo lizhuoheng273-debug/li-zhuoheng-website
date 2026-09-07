@@ -158,9 +158,9 @@ Research signals scatter across news, quotes, and reports, and AI usually stays 
 - **Permissions**: multi-dimensional limits on identity, IP, site-wide, and input length; background AI tasks never auto-rerun while offline.
 - **Delivery**: production deployment on Tencent Cloud Lighthouse with Docker, preflight, and backup scripts; ~90 tests covering streaming, caching, permissions, and search.
 
-## Repository
+## Live site
 
-https://github.com/lizhuoheng273-debug/FT-Research
+https://research.vincentli-website.com
 
 ## Interface
 
@@ -182,9 +182,9 @@ https://github.com/lizhuoheng273-debug/FT-Research
 
 ## Project highlights (interview talking points)
 
-1. **Productizing on a mature open-source base**: not feature stacking, but rebuilding the pipeline around news → review → stocks → sessions — the upstream keeps the objective data layer while AI news, scheduled briefs, and the session workbench evolve independently.
-2. **Boundary design**: data boundaries (public sources with status labels), permission boundaries (owner/guest isolation with multi-dimensional limits), and AI boundaries (interpret and organize context, never trading advice) together define product credibility.
-3. **Engineering completeness**: backend-only API keys, resumable streaming, idempotent scheduled jobs, cache failure fallback, Docker-based deployment, and ~90 tests — genuinely production-ready.`,
+1. **AI grounded in on-page context everywhere**: from news, review, indices, or any stock page, the current context carries into the AI session, so answers build on real page data instead of generic Q&A; streaming responses can be interrupted and resumed, and session history persists for later visits.
+2. **Automated research routine**: AI daily/weekly/monthly reports are generated on schedule at 08:00, structured market briefs are produced automatically after each close, and hot topics plus financial news aggregate and refresh on their own — manual information gathering becomes a fixed automated workflow.
+3. **A genuinely deployed system**: owner/guest role isolation (guests get their own budget and tool permissions; tokens vanish on refresh), API keys stay server-side, production deployment on Tencent Cloud with Docker, and ~90 frontend/backend tests covering critical paths.`,
     images: [
       ['img-review.png', 'Daily market review', 'AI closing summary, indices, and market structure on one screen with transparent data freshness.'],
       ['img-news.png', 'Financial news', 'Global hot topics organized by importance and multi-platform sources, with traceable points.'],
